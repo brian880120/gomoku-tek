@@ -41,7 +41,7 @@ class GameUnit extends React.Component {
             <div className="unit"
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}>
-                <div className="cell" onClick={this.onCellClick}>
+                <div className="cell">
                     <div>
                         <div className="rect"></div>
                         <div className="rect"></div>
@@ -53,7 +53,7 @@ class GameUnit extends React.Component {
                 </div>
                 {
                     this.state.isMouseIn ?
-                        <div className="piece-shadow"></div> :
+                        <div className="piece-shadow"  onClick={this.onCellClick}></div> :
                         <div className="piece-hide"></div>
                 }
                 {
