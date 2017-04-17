@@ -1,0 +1,77 @@
+.game {
+    display: flex;
+}
+
+.column {
+
+}
+
+.unit {
+    position: relative;
+}
+
+.rect {
+    height: 20px;
+    width: 20px;
+    border: solid 1px black;
+}
+
+.piece {
+    background: black;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.piece-shadow {
+    background: lightgray;
+    opacity: 0.4;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.piece-shadow-hide {
+    display: none;
+}
+
+.piece-hide {
+    display: none;
+    background: red;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.cell>div {
+    display: flex;
+}
+
+.cell>div:first-of-type>div:first-of-type {
+    border-top: none;
+    border-left: none;
+}
+
+.cell>div:first-of-type>div:last-of-type {
+    border-top: none;
+    border-right: none;
+}
+
+.cell>div:last-of-type>div:first-of-type {
+    border-bottom: none;
+    border-left: none;
+}
+
+.cell>div:last-of-type>div:last-of-type {
+    border-bottom: none;
+    border-right: none;
+}
