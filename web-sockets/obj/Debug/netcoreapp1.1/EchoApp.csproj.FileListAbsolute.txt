@@ -1,0 +1,18 @@
+C:\R&D\DotNet\ASP.NET Core\WebSockets\bin\Debug\netcoreapp1.1\EchoApp.deps.json
+C:\R&D\DotNet\ASP.NET Core\WebSockets\bin\Debug\netcoreapp1.1\EchoApp.runtimeconfig.json
+C:\R&D\DotNet\ASP.NET Core\WebSockets\bin\Debug\netcoreapp1.1\EchoApp.runtimeconfig.dev.json
+C:\R&D\DotNet\ASP.NET Core\WebSockets\bin\Debug\netcoreapp1.1\EchoApp.dll
+C:\R&D\DotNet\ASP.NET Core\WebSockets\bin\Debug\netcoreapp1.1\EchoApp.pdb
+C:\R&D\DotNet\ASP.NET Core\WebSockets\obj\Debug\netcoreapp1.1\EchoApp.csprojResolveAssemblyReference.cache
+C:\R&D\DotNet\ASP.NET Core\WebSockets\obj\Debug\netcoreapp1.1\EchoApp.AssemblyInfo.cs
+C:\R&D\DotNet\ASP.NET Core\WebSockets\obj\Debug\netcoreapp1.1\EchoApp.dll
+C:\R&D\DotNet\ASP.NET Core\WebSockets\obj\Debug\netcoreapp1.1\EchoApp.pdb
+C:\R&D\DotNet\ASP.NET Core\Web Sockets\bin\Debug\netcoreapp1.1\EchoApp.deps.json
+C:\R&D\DotNet\ASP.NET Core\Web Sockets\bin\Debug\netcoreapp1.1\EchoApp.runtimeconfig.json
+C:\R&D\DotNet\ASP.NET Core\Web Sockets\bin\Debug\netcoreapp1.1\EchoApp.runtimeconfig.dev.json
+C:\R&D\DotNet\ASP.NET Core\Web Sockets\bin\Debug\netcoreapp1.1\EchoApp.dll
+C:\R&D\DotNet\ASP.NET Core\Web Sockets\bin\Debug\netcoreapp1.1\EchoApp.pdb
+C:\R&D\DotNet\ASP.NET Core\Web Sockets\obj\Debug\netcoreapp1.1\EchoApp.csprojResolveAssemblyReference.cache
+C:\R&D\DotNet\ASP.NET Core\Web Sockets\obj\Debug\netcoreapp1.1\EchoApp.AssemblyInfo.cs
+C:\R&D\DotNet\ASP.NET Core\Web Sockets\obj\Debug\netcoreapp1.1\EchoApp.dll
+C:\R&D\DotNet\ASP.NET Core\Web Sockets\obj\Debug\netcoreapp1.1\EchoApp.pdb
