@@ -37,19 +37,8 @@
     left: 5px;
 }
 
-.piece-shadow-hide {
-    display: none;
-}
-
 .piece-hide {
     display: none;
-    background: red;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    position: absolute;
-    top: 5px;
-    left: 5px;
 }
 
 .cell>div {

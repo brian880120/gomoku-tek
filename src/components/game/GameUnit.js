@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import COLOR from './PieceColor';
 
 class GameUnit extends React.Component {
     constructor() {
@@ -20,7 +19,6 @@ class GameUnit extends React.Component {
     }
 
     onCellClick() {
-        console.log('test');
         this.setState({
             isOccupied: true
         });
@@ -54,14 +52,14 @@ class GameUnit extends React.Component {
                     </div>
                 </div>
                 {
-                    this.state.isOccupied ?
-                        <div className="piece"></div> :
+                    this.state.isMouseIn ?
+                        <div className="piece-shadow"></div> :
                         <div className="piece-hide"></div>
                 }
                 {
-                    this.state.isMouseIn ?
-                        <div className="piece-shadow"></div> :
-                        <div className="piece-shadow-hide"></div>
+                    this.state.isOccupied ?
+                        <div className="piece"></div> :
+                        <div className="piece-hide"></div>
                 }
             </div>
         );
