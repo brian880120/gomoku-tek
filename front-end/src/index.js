@@ -6,13 +6,14 @@ import routes from './routes';
 
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
-import { loadGameLayout } from './actions/gameActions';
+import { loadGameLayout, getGameStatus } from './actions/gameActions';
 
 import './styles/styles.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 const store = configureStore();
 store.dispatch(loadGameLayout());
+store.dispatch(getGameStatus());
 
 render(
     <Provider store={store}>

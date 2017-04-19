@@ -721,11 +721,42 @@ const gameLayoutData = [{
     ]
 }];
 
+const mockMoveData = [{
+    columnId: 'column3',
+    unitId: '3-5',
+    color: 'black'
+}, {
+    columnId: 'column4',
+    unitId: '4-8',
+    color: 'white'
+}, {
+    columnId: 'column8',
+    unitId: '8-1',
+    color: 'black'
+}, {
+    columnId: 'column14',
+    unitId: '14-10',
+    color: 'white'
+}];
+
+var counter = 0;
+
 class GameApi {
     static getGameLayoutData() {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(Object.assign([], gameLayoutData));
+            }, delay);
+        });
+    }
+
+    static getGameStatus() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (counter <= 3) {
+                    resolve(Object.assign({}, mockMoveData[counter]));
+                    counter++;
+                }
             }, delay);
         });
     }

@@ -1,6 +1,6 @@
 import * as types from '../actions/actionTypes';
 
-function gameReducer(state = [], action) {
+function gameLayoutReducer(state = [], action) {
     switch(action.type) {
         case types.LOAD_GAME_LAYOUT_SUCCESS:
             return action.layoutData;
@@ -10,4 +10,4 @@ function gameReducer(state = [], action) {
     }
 }
 
-export default gameReducer;
+export default gameLayoutReducer;
