@@ -8,35 +8,25 @@ import GameColumn from './GameColumn';
 class GamePage extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.addPiece = this.addPiece.bind(this);
         this.handleUnitClick = this.handleUnitClick.bind(this);
     }
 
     handleUnitClick(columnId, unitId, event) {
         event.preventDefault();
-        console.log(columnId, unitId);
-    }
-
-    addPiece(event) {
-        event.preventDefault();
-        this.props.actions.getGameStatus();
+        this.props.actions.updateGameStatus(columnId, unitId);
     }
 
     render() {
         const layoutData = this.props.layoutData;
         let statusData = this.props.statusData;
         return (
-            <div>
-                <div className="btn btn-primary"
-                    onClick={this.addPiece}>Add Piece</div>
-                <div className="game">
-                    {layoutData.map(columnData =>
-                        <GameColumn key={columnData.id}
-                                statusData={statusData}
-                                columnData={columnData}
-                                handleUnitClick={this.handleUnitClick} />
-                    )}
-                </div>
+            <div className="game">
+                {layoutData.map(columnData =>
+                    <GameColumn key={columnData.id}
+                            statusData={statusData}
+                            columnData={columnData}
+                            handleUnitClick={this.handleUnitClick} />
+                )}
             </div>
         );
     }

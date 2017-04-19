@@ -8,9 +8,16 @@ function loadGameLayoutSuccess(gameLayoutData) {
     };
 }
 
-function getGameStatusSuccess(gameStatusData) {
+function initializeGameStatusSuccess(gameStatusData) {
     return {
-        type: types.GET_GAME_STATUS,
+        type: types.INIT_GAME_STATUS_SUCCESS,
+        layoutData: gameStatusData
+    };
+}
+
+function updateGameStatusSuccess(gameStatusData) {
+    return {
+        type: types.UPDATE_GAME_STATUS,
         gameStatusData: gameStatusData
     };
 }
@@ -25,10 +32,20 @@ export function loadGameLayout() {
     };
 }
 
-export function getGameStatus() {
+export function initializeGameStatus() {
     return function(dispatch) {
-        return gameApi.getGameStatus().then(gameStatusData => {
-            dispatch(getGameStatusSuccess(gameStatusData));
+        return gameApi.initializeGameStatus().then(gameStatusData => {
+            dispatch(initializeGameStatusSuccess(gameStatusData));
+        }).catch(error => {
+            throw(error);
+        });
+    };
+}
+
+export function updateGameStatus(columnId, unitId) {
+    return function(dispatch) {
+        return gameApi.updateGameStatus(columnId, unitId).then(gameStatusData => {
+            dispatch(updateGameStatusSuccess(gameStatusData));
         }).catch(error => {
             throw(error);
         });
