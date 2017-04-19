@@ -5,9 +5,9 @@ import * as _ from 'lodash';
 
 class GameColumn extends React.Component {
     render() {
-        var statusData = this.props.statusData;
-        var columnId = this.props.columnData.id;
-        var columnStatusData = _.filter(statusData, function(data) {
+        let statusData = this.props.statusData;
+        let columnId = this.props.columnData.id;
+        let columnStatusData = _.filter(statusData, function(data) {
             return columnId === data.columnId;
         });
 

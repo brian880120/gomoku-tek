@@ -25,9 +25,9 @@ class GameUnit extends React.Component {
     }
 
     render() {
-        var unitId = this.props.unitId;
-        var columnStatusData = this.props.columnStatusData;
-        var targetUnit = _.find(columnStatusData, function(data) {
+        let unitId = this.props.unitId;
+        let columnStatusData = this.props.columnStatusData;
+        let targetUnit = _.find(columnStatusData, function(data) {
             return data.unitId === unitId;
         });
 
