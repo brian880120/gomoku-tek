@@ -3,17 +3,30 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Router, browserHistory } from 'react-router';
 import routes from './routes';
+import io from 'socket.io-client';
 
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
-import { loadGameLayout, initializeGameStatus } from './actions/gameActions';
+import { loadGameLayout, initializeGameStatus, updateGameStatus } from './actions/gameActions';
 
 import './styles/styles.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
+const connectionUrl = 'ws://172.27.148.51:5000/ws';
+const socket = new WebSocket(connectionUrl);
 const store = configureStore();
 store.dispatch(loadGameLayout());
 store.dispatch(initializeGameStatus());
+
+socket.onmessage = function(event) {
+    let moveData = JSON.parse(event.data);
+    let parsedMoveData = {
+        columnId: moveData.columnIndex,
+        unitId: moveData.rowIndex,
+        color: moveData.colorInString
+    };
+    store.dispatch(updateGameStatus(parsedMoveData));
+};
 
 render(
     <Provider store={store}>

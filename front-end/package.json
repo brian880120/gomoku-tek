@@ -27,6 +27,7 @@
     "toastr": "2.1.2"
   },
   "devDependencies": {
+    "axios-es6": "^0.11.1",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-loader": "^6.4.1",
@@ -60,6 +61,7 @@
     "redux-mock-store": "^1.2.3",
     "resolve-url-loader": "^2.0.2",
     "rimraf": "2.5.2",
+    "socket.io-client": "^1.7.3",
     "style-loader": "0.13.1",
     "url-loader": "^0.5.8",
     "webpack": "^2.3.3",

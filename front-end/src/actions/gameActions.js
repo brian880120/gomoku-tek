@@ -42,12 +42,10 @@ export function initializeGameStatus() {
     };
 }
 
-export function updateGameStatus(columnId, unitId) {
-    return function(dispatch) {
-        return gameApi.updateGameStatus(columnId, unitId).then(gameStatusData => {
-            dispatch(updateGameStatusSuccess(gameStatusData));
-        }).catch(error => {
-            throw(error);
-        });
+export function updateGameStatus(moveData) {
+    console.log(moveData);
+    return {
+        type: types.UPDATE_GAME_STATUS,
+        gameStatusData: moveData
     };
 }

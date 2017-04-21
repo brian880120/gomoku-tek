@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios-es6';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as gameActions from '../../actions/gameActions';
@@ -13,7 +14,15 @@ class GamePage extends React.Component {
 
     handleUnitClick(columnId, unitId, event) {
         event.preventDefault();
-        this.props.actions.updateGameStatus(columnId, unitId);
+        axios.post('http://172.27.148.51:5000/api/gamemoves/', {
+            columnIndex: columnId,
+            rowIndex: unitId,
+            playerName: 'Bo'
+        }).then(function(response) {
+        }).catch(function(error) {
+            console.log(error);
+        });
+        //this.props.actions.updateGameStatus(columnId, unitId);
     }
 
     render() {

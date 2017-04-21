@@ -30,6 +30,11 @@ class GameUnit extends React.Component {
         let targetUnit = _.find(columnStatusData, function(data) {
             return data.unitId === unitId;
         });
+        let pieceClass = '';
+        if (targetUnit) {
+            pieceClass = 'piece ' + targetUnit.color;
+            console.log(pieceClass);
+        }
 
         return (
             <div className="unit"
@@ -52,7 +57,7 @@ class GameUnit extends React.Component {
                 }
                 {
                     targetUnit ?
-                        <div className="piece"></div> :
+                        <div className={pieceClass}></div> :
                         <div className="piece-hide"></div>
                 }
             </div>
