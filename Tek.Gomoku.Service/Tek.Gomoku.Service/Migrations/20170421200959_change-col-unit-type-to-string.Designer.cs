@@ -8,9 +8,10 @@ using Tek.Gomoku.Service.Models;
 namespace Tek.Gomoku.Service.Migrations
 {
     [DbContext(typeof(GameContext))]
-    partial class GameContextModelSnapshot : ModelSnapshot
+    [Migration("20170421200959_change-col-unit-type-to-string")]
+    partial class changecolunittypetostring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
