@@ -1,0 +1,13 @@
+<h1>
+  {{title}}
+</h1>
+<hr>
+<button type="button" (click)="login()">Login</button>
+<textarea style="width: 100%" rows="4">{{token}}</textarea>
+<hr>
+<button type="button" (click)="move()">Move</button>
+<textarea style="width: 100%" rows="4">{{moveInfo | json}}</textarea>
+<hr>
+<button type="button">Load All Moves</button>
+<button type="button">Remove All Moves</button>
+<button type="button">Logout</button>
