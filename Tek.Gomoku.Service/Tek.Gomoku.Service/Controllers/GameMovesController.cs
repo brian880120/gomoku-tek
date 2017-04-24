@@ -9,9 +9,11 @@ using Tek.Gomoku.Service.Models;
 using Tek.Gomoku.Service.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Tek.Gomoku.Service.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/GameMoves")]
     public class GameMovesController : Controller

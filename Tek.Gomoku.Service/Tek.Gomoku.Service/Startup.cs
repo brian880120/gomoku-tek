@@ -14,6 +14,9 @@ using System.Net.WebSockets;
 using System.Threading;
 using Tek.Gomoku.Service.Services;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Tek.Gomoku.Service
 {
@@ -34,6 +37,14 @@ namespace Tek.Gomoku.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IdentityInitializer>();
+            services.AddSingleton(Configuration);
+
+            services.AddDbContext<GameContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("GameContext")));
+
+            services.AddIdentity<Player, IdentityRole>().AddEntityFrameworkStores<GameContext>();
+
             // Add service and create Policy with options
             services.AddCors(options =>
             {
@@ -47,14 +58,15 @@ namespace Tek.Gomoku.Service
             // Add framework services.
             services.AddMvc();
 
-            services.AddDbContext<GameContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("GameContext")));
-
             services.Add(new ServiceDescriptor(typeof(ISocketService), _socketService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(
+            IApplicationBuilder app, 
+            IHostingEnvironment env, 
+            ILoggerFactory loggerFactory,
+            IdentityInitializer identityInitializer)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -88,8 +100,27 @@ namespace Tek.Gomoku.Service
             // global policy - assign here or on each controller
             app.UseCors("CorsPolicy");
 
+            app.UseIdentity();
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions()
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidIssuer = Configuration["Tokens:Issuer"],
+                    ValidAudience = Configuration["Tokens:Audience"],
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"])),
+                    ValidateLifetime = true
+                }
+            });
+
             app.UseMvc();
+
             app.UseFileServer();
+
+            identityInitializer.Seed().Wait();
         }
 
         private ISocketService _socketService = new SocketService();
