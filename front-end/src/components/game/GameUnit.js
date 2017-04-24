@@ -13,9 +13,11 @@ class GameUnit extends React.Component {
     }
 
     onMouseEnter() {
-        this.setState({
-            isMouseIn: true
-        });
+        if (this.props.isAuthenticated) {
+            this.setState({
+                isMouseIn: true
+            });
+        }
     }
 
     onMouseLeave() {
@@ -33,7 +35,6 @@ class GameUnit extends React.Component {
         let pieceClass = '';
         if (targetUnit) {
             pieceClass = 'piece ' + targetUnit.color;
-            console.log(pieceClass);
         }
 
         return (
@@ -69,7 +70,8 @@ GameUnit.propTypes = {
     columnId: PropTypes.string.isRequired,
     unitId: PropTypes.string.isRequired,
     columnStatusData: PropTypes.array.isRequired,
-    handleUnitClick: PropTypes.func.isRequired
+    handleUnitClick: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired
 };
 
 export default GameUnit;

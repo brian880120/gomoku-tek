@@ -18,7 +18,8 @@ class GameColumn extends React.Component {
                             unitId={data.id}
                             columnStatusData={columnStatusData}
                             columnId={this.props.columnData.id}
-                            handleUnitClick={this.props.handleUnitClick} />
+                            handleUnitClick={this.props.handleUnitClick}
+                            isAuthenticated={this.props.isAuthenticated} />
                 )}
             </div>
         );
@@ -28,7 +29,8 @@ class GameColumn extends React.Component {
 GameColumn.propTypes = {
     columnData: PropTypes.object.isRequired,
     statusData: PropTypes.array.isRequired,
-    handleUnitClick: PropTypes.func.isRequired
+    handleUnitClick: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired
 };
 
 export default GameColumn;

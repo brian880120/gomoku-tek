@@ -1,5 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TextInput from '../common/input/TextInput';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as authActions from '../../actions/authActions';
 
 class LoginPage extends React.Component {
     constructor(props, context) {
@@ -41,4 +45,21 @@ class LoginPage extends React.Component {
     }
 }
 
-export default LoginPage;
+LoginPage.propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
+    actions: PropTypes.object.isRequired
+};
+
+function mapStateToProps(state, ownProps) {
+    return {
+        isAuthenticated: state.auth.isAuthenticated
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(authActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

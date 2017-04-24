@@ -7,7 +7,6 @@ import GamePage from './components/game/GamePage';
 
 export default (
     <Route path="/" component={App}>
-        <IndexRoute component={LoginPage} />
-        <Route path="/game" component={GamePage} />
+        <IndexRoute component={GamePage} />
     </Route>
 );

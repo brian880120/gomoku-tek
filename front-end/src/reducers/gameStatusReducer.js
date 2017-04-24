@@ -1,6 +1,7 @@
 import * as types from '../actions/actionTypes';
+import initialState from './initialState';
 
-function gameStatusReducer(state = [], action) {
+function gameStatusReducer(state = initialState.gameStatus, action) {
     switch(action.type) {
         case types.INIT_GAME_STATUS_SUCCESS:
             return [];

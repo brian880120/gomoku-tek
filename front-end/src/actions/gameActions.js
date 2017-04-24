@@ -43,7 +43,6 @@ export function initializeGameStatus() {
 }
 
 export function updateGameStatus(moveData) {
-    console.log(moveData);
     return {
         type: types.UPDATE_GAME_STATUS,
         gameStatusData: moveData
