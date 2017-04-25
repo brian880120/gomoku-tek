@@ -16,7 +16,7 @@ export class AppService {
 
   public login(userName: string, side: string): Promise<string> {
 
-    var credential = new CredentialModel(userName, side);
+    var credential = new CredentialModel(userName);
 
     return this.http.post(this.authWebApiUrl, credential)
       .toPromise()

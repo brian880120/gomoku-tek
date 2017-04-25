@@ -105,22 +105,18 @@ namespace Tek.Gomoku.Service.Controllers
             _context.GameMove.Add(gameMove);
             await _context.SaveChangesAsync();
 
-            var firstMove = await _context.GameMove.FirstOrDefaultAsync();
-            var colorInString = string.Empty;
-            if (firstMove != null)
+            var game = _context.Game.FirstOrDefault();
+            if (game == null || string.IsNullOrWhiteSpace(game.BlackSidePlayer) && string.IsNullOrWhiteSpace(game.WhiteSidePlayer))
             {
-                if (firstMove.PlayerName == gameMove.PlayerName)
-                {
-                    colorInString = "black";
-                }
-                else
-                {
-                    colorInString = "white";
-                }
+                return BadRequest("Game not started yet!");
             }
+
+            var colorInString = userName == game.BlackSidePlayer ? "black" : "white";
             gameMove.ColorInString = colorInString;
 
-            var jsonString = JsonConvert.SerializeObject(gameMove, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+            var jsonString = JsonConvert.SerializeObject(
+                gameMove, 
+                new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
             await _socketService.BroadcastMessage(jsonString);
 
             return CreatedAtAction("GetGameMove", new { id = gameMove.ID }, gameMove);

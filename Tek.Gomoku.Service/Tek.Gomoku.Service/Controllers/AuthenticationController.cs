@@ -97,7 +97,7 @@ namespace Tek.Gomoku.Service.Controllers
             return token;
         }
 
-        private async Task<Game> JoinGame(string userName, string side)
+        private async Task<Game> JoinGame(string userName)
         {
             var game = _context.Game.FirstOrDefault();
             if (game == null)
@@ -110,22 +110,11 @@ namespace Tek.Gomoku.Service.Controllers
                 throw new InvalidOperationException("Game has started!");
             }
 
-            if (!string.IsNullOrWhiteSpace(game.BlackSidePlayer) && side == "black")
-            {
-                throw new InvalidOperationException("Black side has been taken!");
-            }
-
-            if (!string.IsNullOrWhiteSpace(game.WhiteSidePlayer) && side == "white")
-            {
-                throw new InvalidOperationException("White side has been taken!");
-            }
-
-            if(side == "black")
+            if(string.IsNullOrWhiteSpace(game.BlackSidePlayer))
             {
                 game.BlackSidePlayer = userName;
-            }
-
-            if(side == "white")
+            } 
+            else
             {
                 game.WhiteSidePlayer = userName;
             }
@@ -172,12 +161,12 @@ namespace Tek.Gomoku.Service.Controllers
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(model.UserName) || string.IsNullOrWhiteSpace(model.Side))
+                if (string.IsNullOrWhiteSpace(model.UserName))
                 {
-                    throw new InvalidOperationException("UserName and Side are required parameters");
+                    throw new InvalidOperationException("UserName is required parameter");
                 }
 
-                var game = await JoinGame(model.UserName, model.Side);
+                var game = await JoinGame(model.UserName);
 
                 await BroadcastGameInfo(game);
 

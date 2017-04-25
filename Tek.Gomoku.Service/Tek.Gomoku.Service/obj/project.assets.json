@@ -11134,27 +11134,7 @@
     "frameworks": {
       "netcoreapp1.1": {
         "dependencies": {
-<<<<<<< HEAD
-<<<<<<< HEAD
           "System.IdentityModel.Tokens.Jwt": {
-            "target": "Package",
-            "version": "5.1.2"
-          },
-          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
-            "target": "Package",
-            "version": "1.1.1"
-          },
-          "Microsoft.AspNetCore": {
-=======
-          "Microsoft.NETCore.App": {
->>>>>>> Add token authentication
-            "target": "Package",
-            "version": "1.1.1"
-          },
-          "Microsoft.AspNetCore.WebSockets": {
-=======
-          "System.IdentityModel.Tokens.Jwt": {
->>>>>>> Add tester
             "target": "Package",
             "version": "5.1.2"
           },
@@ -11187,19 +11167,7 @@
             "target": "Package",
             "version": "1.1.0"
           },
-<<<<<<< HEAD
-<<<<<<< HEAD
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
-            "target": "Package",
-            "version": "1.1.1"
-          },
-          "Microsoft.EntityFrameworkCore.SqlServer": {
-=======
-          "Microsoft.Extensions.Logging.Debug": {
->>>>>>> Add token authentication
-=======
-          "Microsoft.AspNetCore.Authentication.JwtBearer": {
->>>>>>> Add tester
             "target": "Package",
             "version": "1.1.1"
           },
@@ -11224,10 +11192,6 @@
             "version": "2.0.0"
           },
           "Microsoft.AspNetCore.StaticFiles": {
-            "target": "Package",
-            "version": "1.1.1"
-          },
-          "Microsoft.AspNetCore.Identity": {
             "target": "Package",
             "version": "1.1.1"
           },
