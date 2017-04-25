@@ -8,9 +8,10 @@ using Tek.Gomoku.Service.Models;
 namespace Tek.Gomoku.Service.Migrations
 {
     [DbContext(typeof(GameContext))]
-    partial class GameContextModelSnapshot : ModelSnapshot
+    [Migration("20170425033719_ChangeGameTableSchema")]
+    partial class ChangeGameTableSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")

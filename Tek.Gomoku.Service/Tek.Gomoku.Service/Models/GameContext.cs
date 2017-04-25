@@ -18,7 +18,9 @@ namespace Tek.Gomoku.Service.Models
             _config = config;
         }
 
-        public DbSet<Tek.Gomoku.Service.Models.GameMove> GameMove { get; set; }
+        public DbSet<GameMove> GameMove { get; set; }
+
+        public DbSet<Game> Game { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

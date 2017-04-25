@@ -9,16 +9,18 @@ import { MoveModel } from './move.model';
 })
 export class AppComponent {
 
-  title = 'app works!';
-
-  token: string;
-
-  moveInfo: MoveModel;
+  private title = 'app works!';
+  private token: string;
+  private moveInfo: MoveModel;
+  private userName: string;
+  private sides: Array<string> = ['black', 'white'];
+  private selectedSide: string = this.sides[0];
 
   constructor(private appService: AppService) { }
 
   private login(): void {
-    this.appService.login('hong.xu', 'P@ssw0rd!').then(token => {
+    console.log(this.userName);
+    this.appService.login(this.userName, this.selectedSide).then(token => {
       this.token = token;
       console.log('token:');
       console.log(token);
@@ -26,9 +28,18 @@ export class AppComponent {
   }
 
   private move(): void {
-    this.appService.move('hong.xu', this.token).then(move => {
+    this.appService.move(this.userName, this.token).then(move => {
       this.moveInfo = move;
       console.log(move);
     });
+  }
+
+  private resetGame(): void {
+    this.appService.resetGame();
+  }
+
+  private onSelectionChange(side) {
+    // clone the object for immutability
+    this.selectedSide = side;
   }
 }

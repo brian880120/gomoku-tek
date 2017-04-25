@@ -8,5 +8,6 @@ namespace Tek.Gomoku.Service.Models
 {
     public class Player : IdentityUser
     {
+        public string Side { get; set; }
     }
 }

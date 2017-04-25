@@ -2,12 +2,27 @@
   {{title}}
 </h1>
 <hr>
+
+
+<label for="inputUserName">User Name</label>
+<input type="text" id="inputUserName" [(ngModel)]="userName" />
+
+<span *ngFor="let side of sides; let idx = index">
+  <input type="radio" name="sidegroup" (change)="onSelectionChange(side)" [checked]="(idx === 0)" [value]="side">
+    {{ side }}
+</span>
+
 <button type="button" (click)="login()">Login</button>
 <textarea style="width: 100%" rows="4">{{token}}</textarea>
+
 <hr>
+
 <button type="button" (click)="move()">Move</button>
 <textarea style="width: 100%" rows="4">{{moveInfo | json}}</textarea>
 <hr>
+
 <button type="button">Load All Moves</button>
 <button type="button">Remove All Moves</button>
 <button type="button">Logout</button>
+
+<button type="button" (click)="resetGame()">Reset Game</button>

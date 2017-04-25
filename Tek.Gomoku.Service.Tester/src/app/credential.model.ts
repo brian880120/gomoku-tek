@@ -1,5 +1,5 @@
 export class CredentialModel {
     
-    constructor(public userName: string, public password: string) {  }
+    constructor(public userName: string, public side: string) {  }
 
 }

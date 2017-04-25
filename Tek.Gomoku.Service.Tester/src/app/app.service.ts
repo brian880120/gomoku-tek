@@ -9,13 +9,14 @@ import { MoveModel } from './move.model';
 export class AppService {
 
   private authWebApiUrl = 'http://localhost:5000/api/authentication/token';
-  private gameWebApiUrl = "http://localhost:5000/api/gamemoves";
+  private gameMoveWebApiUrl = "http://localhost:5000/api/gamemoves";
+  private gameWebApiUrl = "http://localhost:5000/api/games";
 
   constructor(private http: Http) { }
 
-  public login(userName: string, password: string): Promise<string> {
+  public login(userName: string, side: string): Promise<string> {
 
-    var credential = new CredentialModel(userName, password);
+    var credential = new CredentialModel(userName, side);
 
     return this.http.post(this.authWebApiUrl, credential)
       .toPromise()
@@ -35,11 +36,15 @@ export class AppService {
     let headers = new Headers();
     headers.append('Authorization', 'bearer ' + token);
 
-    return this.http.post(this.gameWebApiUrl, move, { headers: headers })
+    return this.http.post(this.gameMoveWebApiUrl, move, { headers: headers })
       .toPromise()
       .then(response => {
         var result = response.json() as MoveModel;
         return result;
       });
+  }
+
+  public resetGame(): void {
+    this.http.delete(this.gameWebApiUrl).toPromise().then(response=>{});
   }
 }

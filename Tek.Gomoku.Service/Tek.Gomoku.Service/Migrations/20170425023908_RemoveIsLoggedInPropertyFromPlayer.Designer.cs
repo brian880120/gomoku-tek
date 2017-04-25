@@ -8,9 +8,10 @@ using Tek.Gomoku.Service.Models;
 namespace Tek.Gomoku.Service.Migrations
 {
     [DbContext(typeof(GameContext))]
-    partial class GameContextModelSnapshot : ModelSnapshot
+    [Migration("20170425023908_RemoveIsLoggedInPropertyFromPlayer")]
+    partial class RemoveIsLoggedInPropertyFromPlayer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -128,9 +129,9 @@ namespace Tek.Gomoku.Service.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("BlackSidePlayer");
+                    b.Property<string>("BlackSideUserName");
 
-                    b.Property<string>("WhiteSidePlayer");
+                    b.Property<string>("WhiteSideUserName");
 
                     b.HasKey("ID");
 

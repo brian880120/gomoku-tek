@@ -8,9 +8,10 @@ using Tek.Gomoku.Service.Models;
 namespace Tek.Gomoku.Service.Migrations
 {
     [DbContext(typeof(GameContext))]
-    partial class GameContextModelSnapshot : ModelSnapshot
+    [Migration("20170425014857_AddSideToPlayer")]
+    partial class AddSideToPlayer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -123,20 +124,6 @@ namespace Tek.Gomoku.Service.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Tek.Gomoku.Service.Models.Game", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("BlackSidePlayer");
-
-                    b.Property<string>("WhiteSidePlayer");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Game");
-                });
-
             modelBuilder.Entity("Tek.Gomoku.Service.Models.GameMove", b =>
                 {
                     b.Property<int>("ID")
@@ -169,6 +156,8 @@ namespace Tek.Gomoku.Service.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("IsLoggedIn");
 
                     b.Property<bool>("LockoutEnabled");
 

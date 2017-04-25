@@ -10,6 +10,7 @@ using Tek.Gomoku.Service.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Tek.Gomoku.Service.Controllers
 {
@@ -19,13 +20,14 @@ namespace Tek.Gomoku.Service.Controllers
     public class GameMovesController : Controller
     {
         private readonly GameContext _context;
-
         private readonly ISocketService _socketService;
+        private readonly IUserInfoService _userInfoService;
 
-        public GameMovesController(GameContext context, ISocketService socketService)
+        public GameMovesController(GameContext context, ISocketService socketService, IUserInfoService userInfoService)
         {
             _context = context;
             _socketService = socketService;
+            _userInfoService = userInfoService;
         }
 
         // GET: api/GameMoves
@@ -93,6 +95,8 @@ namespace Tek.Gomoku.Service.Controllers
         [HttpPost]
         public async Task<IActionResult> PostGameMove([FromBody] GameMove gameMove)
         {
+            var userName = _userInfoService.GetUserName(User);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -115,8 +119,8 @@ namespace Tek.Gomoku.Service.Controllers
                 }
             }
             gameMove.ColorInString = colorInString;
-            var jsonString = JsonConvert.SerializeObject(gameMove, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
 
+            var jsonString = JsonConvert.SerializeObject(gameMove, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
             await _socketService.BroadcastMessage(jsonString);
 
             return CreatedAtAction("GetGameMove", new { id = gameMove.ID }, gameMove);
