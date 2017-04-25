@@ -1,5 +1,48 @@
-.game {
+#app {
+    background-color: antiquewhite;
+    margin: auto;
+    max-width: 1500px;
+}
+
+.game-body>div>div {
     display: flex;
+}
+
+.header-area {
+    display: flex;
+    background-color: #485779;
+    margin-bottom: 30px;
+}
+
+.header-area>h1 {
+    padding-top: 10px;
+    padding-left: 50px;
+    font-size: 45px;
+    color: #f0ffff;
+}
+
+ .require-login {
+    margin-left: 40px;
+    margin-bottom: 20px;
+ }
+
+.login-area {
+    margin-left: 100px;
+    width: 40%;
+}
+
+.login-area>div:first-of-type {
+    margin-bottom: 10px;
+}
+
+.login-area>input {
+    width: 80%;
+}
+
+.game {
+    width: 60%;
+    display: flex;
+    margin-left: 40px;
 }
 
 .column {
