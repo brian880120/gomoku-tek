@@ -11,8 +11,7 @@ class Login extends React.Component {
         super();
         this.state = {
             user: {
-                username: '',
-                password: ''
+                username: ''
             }
         };
         this.onLogin = this.onLogin.bind(this);
@@ -32,32 +31,36 @@ class Login extends React.Component {
         event.preventDefault();
         return this.setState({
             user: {
-                username: event.target.value,
-                password: 'P@ssw0rd!'
+                username: event.target.value
             }
         });
     }
 
     render() {
+        let isAuthenticated = this.props.auth.isAuthenticated;
         return (
             <div className="login-area">
-                <div>
-                    <Input focus
-                        placeholder="Enter a user Id"
-                        onChange={this.onTextChange}
-                        value={this.state.user.username} />
-                </div>
-                <div>
-                    <Button primary onClick={this.onLogin}>Login</Button>
-                    <Button secondary onClick={this.clearStorage}>Clear Storage</Button>
-                </div>
+                {
+                    isAuthenticated ?
+                    <Button secondary onClick={this.clearStorage}>Clear Storage</Button> :
+                    <div>
+                        <div>
+                            <Input focus
+                                placeholder="Enter a user Id"
+                                onChange={this.onTextChange}
+                                value={this.state.user.username} />
+                        </div>
+                        <Button primary onClick={this.onLogin}>Login</Button>
+                    </div>
+                }
             </div>
         );
     }
 }
 
 Login.propTypes = {
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {

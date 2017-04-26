@@ -1,5 +1,6 @@
 import * as types from '../actions/actionTypes';
 import initialState from './initialState';
+import * as _ from 'lodash';
 
 function gameStatusReducer(state = initialState.gameStatus, action) {
     switch(action.type) {
@@ -7,10 +8,10 @@ function gameStatusReducer(state = initialState.gameStatus, action) {
             return [];
 
         case types.UPDATE_GAME_STATUS:
-            return [
-                ...state,
-                Object.assign({}, action.gameStatusData)
-            ];
+            let statusData = [...state, Object.assign({}, action.gameStatusData)];
+            return _.filter(statusData, function(data) {
+                return !_.isUndefined(data.columnId);
+            });
 
         default:
             return state;

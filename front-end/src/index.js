@@ -13,7 +13,7 @@ import './styles/styles.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/semantic-ui/dist/semantic.min.css';
 
-const connectionUrl = 'ws://172.27.148.51:5000/ws';
+const connectionUrl = 'ws://localhost:5000/ws';
 const socket = new WebSocket(connectionUrl);
 const store = configureStore();
 store.dispatch(loadGameLayout());

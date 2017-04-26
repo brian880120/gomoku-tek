@@ -1,7 +1,7 @@
 import * as types from './actionTypes';
 import axios from 'axios-es6';
 
-const BASE_URL = 'http://172.27.148.51:5000/api/';
+const BASE_URL = 'http://localhost:5000/api/';
 
 function requestLogin(creds) {
     return {
@@ -43,8 +43,7 @@ export function loginUser(creds) {
         method: 'post',
         url: BASE_URL + 'authentication/token',
         data: {
-            userName: creds.username,
-            password: creds.password
+            userName: creds.username
         },
         headers: {
             'Content-Type': 'application/json'
@@ -64,6 +63,7 @@ export function loginUser(creds) {
                 }
             }
         }, function(err) {
+            console.log(err);
         });
     };
 }

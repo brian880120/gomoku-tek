@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import GameColumn from './GameColumn';
 import Login from '../game-common/login';
 import RequireLogin from '../game-common/loginRequire';
+import gameApi from '../../../api/mockGameApi';
 
-const BASE_URL = 'http://172.27.148.51:5000/api/';
+const BASE_URL = 'http://localhost:5000/api/';
 
 class GamePage extends React.Component {
     constructor(props, context) {
@@ -25,15 +26,20 @@ class GamePage extends React.Component {
             data: {
                 columnIndex: columnId,
                 rowIndex: unitId,
-                playerName: this.props.auth.creds.username
+                playerName: this.props.auth.user.username
             },
             headers: {
                 Authorization: 'bearer ' + this.props.auth.id_token
             }
         };
 
+        let occupiedPositions = this.props.statusData;
         axios(config).then(function(response) {
-        }).catch(function(error) {
+            gameApi.checkWinner(occupiedPositions, {
+                columnId: response.data.columnIndex,
+                unitId: response.data.rowIndex,
+                color: response.data.colorInString
+            });
         });
     }
 
@@ -57,10 +63,7 @@ class GamePage extends React.Component {
                                     isAuthenticated={this.props.auth.isAuthenticated} />
                         )}
                     </div>
-                    {
-                        isAuthenticated ? '' :
-                            <Login />
-                    }
+                    <Login />
                 </div>
             </div>
         );
