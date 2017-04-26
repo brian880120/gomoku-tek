@@ -47,6 +47,9 @@ class GamePage extends React.Component {
         const layoutData = this.props.layoutData;
         let statusData = this.props.statusData;
         let isAuthenticated = this.props.auth.isAuthenticated;
+        if (!isAuthenticated) {
+            statusData = [];
+        }
         return (
             <div>
                 {

@@ -32,6 +32,7 @@ export function loadGameLayout() {
     };
 }
 
+// Todo: call real api
 export function initializeGameStatus() {
     return function(dispatch) {
         return gameApi.initializeGameStatus().then(gameStatusData => {
