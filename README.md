@@ -9,3 +9,12 @@ TODO:
   Payload: {}
 }
 5) remove reset game
+
+
+Important code refactor need soon:
+1) change columnId and unitId to integer:
+{
+  columnId: 1,
+  unitId: 10
+}
+
