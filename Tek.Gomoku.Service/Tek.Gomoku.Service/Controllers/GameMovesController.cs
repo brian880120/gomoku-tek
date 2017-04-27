@@ -114,6 +114,8 @@ namespace Tek.Gomoku.Service.Controllers
             var colorInString = userName == game.BlackSidePlayer ? "black" : "white";
             gameMove.ColorInString = colorInString;
 
+            await _context.SaveChangesAsync();
+
             var jsonString = JsonConvert.SerializeObject(
                 gameMove, 
                 new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
