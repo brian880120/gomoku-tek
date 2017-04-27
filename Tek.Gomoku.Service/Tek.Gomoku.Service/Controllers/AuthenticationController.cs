@@ -152,8 +152,14 @@ namespace Tek.Gomoku.Service.Controllers
 
         private async Task BroadcastGameInfo(Game game)
         {
-            var jsonString = JsonConvert.SerializeObject(game, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
-            await _socketService.BroadcastMessage(jsonString);
+            try
+            {
+                var jsonString = JsonConvert.SerializeObject(game, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+                await _socketService.BroadcastMessage(jsonString);
+            }
+            catch
+            {
+            }
         }
 
         [HttpPost("api/authentication/token")]
