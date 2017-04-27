@@ -8,6 +8,7 @@ import Login from '../game-common/login';
 import RequireLogin from '../game-common/loginRequire';
 import gameApi from '../../../api/mockGameApi';
 import * as gameActions from '../../../actions/gameActions';
+import * as _ from 'lodash';
 
 const BASE_URL = 'http://localhost:5000/api/';
 
@@ -102,7 +103,7 @@ function mapStateToProps(state, ownProps) {
             color: status.colorInString,
             columnId: status.columnIndex,
             unitId: status.rowIndex
-        }
+        };
         parsedGameStatus.push(parsedStatus);
     });
     return {

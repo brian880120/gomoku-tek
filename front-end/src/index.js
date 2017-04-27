@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
-import { loadGameLayout, initializeGameStatus, updateGameStatus } from './actions/gameActions';
+import { loadGameLayout, updateGameStatus } from './actions/gameActions';
 import { initAuthStatus } from './actions/authActions';
 
 import './styles/styles.css';
@@ -19,7 +19,6 @@ const socket = new WebSocket(connectionUrl);
 const store = configureStore();
 store.dispatch(initAuthStatus());
 store.dispatch(loadGameLayout());
-//store.dispatch(initializeGameStatus());
 
 socket.onmessage = function(event) {
     let moveData = JSON.parse(event.data);

@@ -8,6 +8,12 @@
     display: flex;
 }
 
+.header-icon {
+    height: 135px;
+    width: 140px;
+    background-image: url('../images/gomoku-logo.jpg');
+}
+
 .header-area {
     display: flex;
     background-color: #485779;

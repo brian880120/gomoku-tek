@@ -64,7 +64,7 @@ export function deleteGameStatus(config) {
         return axios(config).then(function() {
             dispatch(deleteGameStatusSuccess());
         }).catch(function(error) {
-            throw(error)
-        })
-    }
+            throw(error);
+        });
+    };
 }
