@@ -5,6 +5,9 @@ import { bindActionCreators } from 'redux';
 import { Input, Button } from 'semantic-ui-react';
 
 import * as authActions from '../../../actions/authActions';
+import * as gameActions from '../../../actions/gameActions';
+
+const BASE_URL = 'http://localhost:5000/api/';
 
 class Login extends React.Component {
     constructor() {
@@ -15,16 +18,24 @@ class Login extends React.Component {
             }
         };
         this.onLogin = this.onLogin.bind(this);
-        this.clearStorage = this.clearStorage.bind(this);
+        this.onLogout = this.onLogout.bind(this);
         this.onTextChange = this.onTextChange.bind(this);
     }
 
     onLogin() {
-        this.props.actions.loginUser(this.state.user);
+        this.props.authActions.loginUser(this.state.user);
     }
 
-    clearStorage() {
-        localStorage.removeItem('id_token');
+    onLogout() {
+        let config = {
+            method: 'delete',
+            url: BASE_URL + 'gameMoves',
+            headers: {
+                Authorization: 'bearer ' + this.props.auth.id_token
+            }
+        };
+        this.props.gameActions.deleteGameStatus(config);
+        this.props.authActions.logoutUser();
     }
 
     onTextChange(event) {
@@ -42,7 +53,7 @@ class Login extends React.Component {
             <div className="login-area">
                 {
                     isAuthenticated ?
-                    <Button secondary onClick={this.clearStorage}>Clear Storage</Button> :
+                    <Button secondary onClick={this.onLogout}>Logout</Button> :
                     <div>
                         <div>
                             <Input focus
@@ -59,7 +70,8 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-    actions: PropTypes.object.isRequired,
+    authActions: PropTypes.object.isRequired,
+    gameActions: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired
 };
 
@@ -71,7 +83,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(authActions, dispatch)
+        authActions: bindActionCreators(authActions, dispatch),
+        gameActions: bindActionCreators(gameActions, dispatch)
     };
 }
 

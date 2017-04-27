@@ -1,5 +1,8 @@
 import * as types from './actionTypes';
+import axios from 'axios-es6';
 import gameApi from '../api/mockGameApi';
+
+const BASE_URL = 'http://localhost:5000/api/';
 
 function loadGameLayoutSuccess(gameLayoutData) {
     return {
@@ -11,7 +14,7 @@ function loadGameLayoutSuccess(gameLayoutData) {
 function initializeGameStatusSuccess(gameStatusData) {
     return {
         type: types.INIT_GAME_STATUS_SUCCESS,
-        layoutData: gameStatusData
+        gameStatusData: gameStatusData
     };
 }
 
@@ -19,6 +22,13 @@ function updateGameStatusSuccess(gameStatusData) {
     return {
         type: types.UPDATE_GAME_STATUS,
         gameStatusData: gameStatusData
+    };
+}
+
+function deleteGameStatusSuccess() {
+    return {
+        type: types.DELETE_GAME_STATUS,
+        gameStatusData: []
     };
 }
 
@@ -32,13 +42,12 @@ export function loadGameLayout() {
     };
 }
 
-// Todo: call real api
-export function initializeGameStatus() {
+export function getGameStatus(config) {
     return function(dispatch) {
-        return gameApi.initializeGameStatus().then(gameStatusData => {
+        return axios(config).then(function(gameStatusData) {
             dispatch(initializeGameStatusSuccess(gameStatusData));
-        }).catch(error => {
-            throw(error);
+        }, function(err) {
+            throw(err);
         });
     };
 }
@@ -48,4 +57,14 @@ export function updateGameStatus(moveData) {
         type: types.UPDATE_GAME_STATUS,
         gameStatusData: moveData
     };
+}
+
+export function deleteGameStatus(config) {
+    return function(dispatch) {
+        return axios(config).then(function() {
+            dispatch(deleteGameStatusSuccess());
+        }).catch(function(error) {
+            throw(error)
+        })
+    }
 }

@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios-es6';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import GameColumn from './GameColumn';
 import Login from '../game-common/login';
 import RequireLogin from '../game-common/loginRequire';
 import gameApi from '../../../api/mockGameApi';
+import * as gameActions from '../../../actions/gameActions';
 
 const BASE_URL = 'http://localhost:5000/api/';
 
@@ -13,6 +15,19 @@ class GamePage extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.handleUnitClick = this.handleUnitClick.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.props.auth.isAuthenticated) {
+            let config = {
+                method: 'get',
+                url: BASE_URL + 'gameMoves',
+                headers: {
+                    Authorization: 'bearer ' + this.props.auth.id_token
+                }
+            };
+            this.props.actions.getGameStatus(config);
+        }
     }
 
     handleUnitClick(columnId, unitId, event) {
@@ -25,8 +40,7 @@ class GamePage extends React.Component {
             url: BASE_URL + 'gamemoves',
             data: {
                 columnIndex: columnId,
-                rowIndex: unitId,
-                playerName: this.props.auth.user.username
+                rowIndex: unitId
             },
             headers: {
                 Authorization: 'bearer ' + this.props.auth.id_token
@@ -76,15 +90,32 @@ class GamePage extends React.Component {
 GamePage.propTypes = {
     layoutData: PropTypes.array.isRequired,
     statusData: PropTypes.array.isRequired,
+    actions: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
+    let gameStatus = state.gameStatus;
+    let parsedGameStatus = [];
+    _.forEach(gameStatus, function(status) {
+        let parsedStatus = {
+            color: status.colorInString,
+            columnId: status.columnIndex,
+            unitId: status.rowIndex
+        }
+        parsedGameStatus.push(parsedStatus);
+    });
     return {
         layoutData: state.gameLayout,
-        statusData: state.gameStatus,
+        statusData: parsedGameStatus,
         auth: state.auth
     };
 }
 
-export default connect(mapStateToProps)(GamePage);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(gameActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GamePage);

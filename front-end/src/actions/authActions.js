@@ -38,6 +38,19 @@ function receiveLogout() {
     };
 }
 
+export function initAuthStatus() {
+    let token = localStorage.getItem('id_token');
+    let auth = {
+        type: types.INIT_AUTH_STATUS,
+        isAuthenticated: false
+    };
+    if (token) {
+        auth.isAuthenticated = true;
+        auth.id_token = token;
+    }
+    return auth;
+}
+
 export function loginUser(creds) {
     let config = {
         method: 'post',
@@ -56,6 +69,7 @@ export function loginUser(creds) {
             if (res) {
                 if (res.statusText === 'OK') {
                     localStorage.setItem('id_token', res.data.token);
+                    localStorage.setItem('username', creds.username);
                     dispatch(receiveLogin(res.data.token));
                 } else {
                     dispatch(loginInError(res.data));
@@ -63,7 +77,7 @@ export function loginUser(creds) {
                 }
             }
         }, function(err) {
-            console.log(err);
+            throw(err);
         });
     };
 }
@@ -80,6 +94,7 @@ export function logoutUser() {
     return dispatch => {
         dispatch(requestLogout());
         localStorage.removeItem('id_token');
+        localStorage.removeItem('username');
         dispatch(receiveLogout());
     };
 }

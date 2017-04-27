@@ -3,6 +3,12 @@ import initialState from './initialState';
 
 function authReducer(state = initialState.auth, action) {
     switch (action.type) {
+        case types.INIT_AUTH_STATUS:
+            return {
+                isAuthenticated: action.isAuthenticated,
+                id_token: action.id_token
+            };
+
         case types.LOGIN_REQUEST:
             return Object.assign({}, state, {
                 isFetching: true,

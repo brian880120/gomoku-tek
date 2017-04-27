@@ -5,13 +5,16 @@ import * as _ from 'lodash';
 function gameStatusReducer(state = initialState.gameStatus, action) {
     switch(action.type) {
         case types.INIT_GAME_STATUS_SUCCESS:
-            return [];
+            return action.gameStatusData.data;
 
         case types.UPDATE_GAME_STATUS:
-            let statusData = [...state, Object.assign({}, action.gameStatusData)];
-            return _.filter(statusData, function(data) {
-                return !_.isUndefined(data.columnId);
-            });
+            return [
+                ...state,
+                Object.assign({}, action.gameStatusData)
+            ];
+
+        case types.DELETE_GAME_STATUS:
+            return action.gameStatusData;
 
         default:
             return state;
