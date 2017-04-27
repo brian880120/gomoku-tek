@@ -1,4 +1,8 @@
 import delay from './delay';
+import * as _ from 'lodash';
+
+const MAX_ROW_INDEX = 15;
+const MAX_COL_INDEX = 18;
 
 const gameLayoutData = [{
     id: 'column1',
@@ -868,6 +872,120 @@ const gameLayoutData = [{
     ]
 }];
 
+function findMatcher(occupiedPositions, currentMove, matchString) {
+    return _.find(occupiedPositions, function(pos) {
+        return pos.unitId === matchString && pos.color === currentMove.color;
+    });
+}
+
+function checkHorizontalConsecutive(columnIndex, rowIndex, occupiedPositions, currentMove) {
+    let count = 1;
+    for (let i = columnIndex + 1; i <= MAX_COL_INDEX; i++) {
+        let matchString = i + '-' + rowIndex;
+        let hasFound = findMatcher(occupiedPositions, currentMove, matchString);
+        if (hasFound) {
+            count++;
+        } else {
+            break;
+        }
+    }
+
+    for (let i = columnIndex - 1; i >= 1; i--) {
+        let matchString = i + '-' + rowIndex;
+        let hasFound = findMatcher(occupiedPositions, currentMove, matchString);
+        if (hasFound) {
+            count++;
+        } else {
+            break;
+        }
+    }
+    if (count === 5) {
+        return true;
+    }
+    return false;
+}
+
+function checkVerticalConsecutive(columnIndex, rowIndex, occupiedPositions, currentMove) {
+    let count = 1;
+    for (let i = rowIndex + 1; i <= MAX_ROW_INDEX; i++) {
+        let matchString = columnIndex + '-' + i;
+        let hasFound = findMatcher(occupiedPositions, currentMove, matchString);
+        if (hasFound) {
+            count++;
+        } else {
+            break;
+        }
+    }
+
+    for (let i = rowIndex - 1; i >= 1; i--) {
+        let matchString = columnIndex + '-' + i;
+        let hasFound = findMatcher(occupiedPositions, currentMove, matchString);
+        if (hasFound) {
+            count++;
+        } else {
+            break;
+        }
+    }
+    if (count === 5) {
+        return true;
+    }
+    return false;
+}
+
+function checkForwardSlashConsecutive(columnIndex, rowIndex, occupiedPositions, currentMove) {
+    let count = 1;
+    for (let i = columnIndex + 1, j = rowIndex + 1; i <= MAX_COL_INDEX, j <= MAX_ROW_INDEX; i++, j++) {
+        let matchString = i + '-' + j;
+        let hasFound = findMatcher(occupiedPositions, currentMove, matchString);
+        if (hasFound) {
+            count++;
+        } else {
+            break;
+        }
+    }
+
+    for (let i = columnIndex - 1, j = rowIndex - 1; i >= 1, j >= 1; i--, j--) {
+        let matchString = i + '-' + j;
+        let hasFound = findMatcher(occupiedPositions, currentMove, matchString);
+        if (hasFound) {
+            count++;
+        } else {
+            break;
+        }
+    }
+    if (count === 5) {
+        return true;
+    }
+    return false;
+}
+
+function checkBackwardSlashConsecutive(columnIndex, rowIndex, occupiedPositions, currentMove) {
+    let count = 1;
+    for (let i = columnIndex + 1, j = rowIndex - 1; i <= MAX_COL_INDEX, j >= 1; i++, j--) {
+        let matchString = i + '-' + j;
+        let hasFound = findMatcher(occupiedPositions, currentMove, matchString);
+        if (hasFound) {
+            count++;
+        } else {
+            break;
+        }
+    }
+
+    for (let i = columnIndex - 1, j = rowIndex + 1; i >= 1, j <= MAX_ROW_INDEX; i--, j++) {
+        let matchString = i + '-' + j;
+        let hasFound = findMatcher(occupiedPositions, currentMove, matchString);
+        if (hasFound) {
+            count++;
+        } else {
+            break;
+        }
+    }
+    if (count === 5) {
+        return true;
+    }
+    return false;
+}
+
 class GameApi {
     static getGameLayoutData() {
         return new Promise((resolve, reject) => {
@@ -895,6 +1013,19 @@ class GameApi {
                 });
             }, delay);
         });
+    }
+
+    static checkWinner(occupiedPositions, currentMove) {
+        let columnIndex = parseInt(currentMove.unitId.split('-')[0]);
+        let rowIndex = parseInt(currentMove.unitId.split('-')[1]);
+        if (
+            checkHorizontalConsecutive(columnIndex, rowIndex, occupiedPositions, currentMove) ||
+            checkVerticalConsecutive(columnIndex, rowIndex, occupiedPositions, currentMove) ||
+            checkForwardSlashConsecutive(columnIndex, rowIndex, occupiedPositions, currentMove) ||
+            checkBackwardSlashConsecutive(columnIndex, rowIndex, occupiedPositions, currentMove)
+        ) {
+            alert(currentMove.color + ' wins');
+        }
     }
 }
 
