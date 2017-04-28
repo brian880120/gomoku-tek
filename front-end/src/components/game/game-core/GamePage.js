@@ -4,8 +4,6 @@ import axios from 'axios-es6';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import GameColumn from './GameColumn';
-import Login from '../game-common/login';
-import RequireLogin from '../game-common/loginRequire';
 import gameApi from '../../../api/mockGameApi';
 import * as gameActions from '../../../actions/gameActions';
 import * as _ from 'lodash';
@@ -67,21 +65,14 @@ class GamePage extends React.Component {
         }
         return (
             <div>
-                {
-                    isAuthenticated ? '' :
-                        <RequireLogin />
-                }
-                <div>
-                    <div className="game">
-                        {layoutData.map(columnData =>
-                            <GameColumn key={columnData.id}
-                                    statusData={statusData}
-                                    columnData={columnData}
-                                    handleUnitClick={this.handleUnitClick}
-                                    isAuthenticated={this.props.auth.isAuthenticated} />
-                        )}
-                    </div>
-                    <Login />
+                <div className="game">
+                    {layoutData.map(columnData =>
+                        <GameColumn key={columnData.id}
+                                statusData={statusData}
+                                columnData={columnData}
+                                handleUnitClick={this.handleUnitClick}
+                                isAuthenticated={this.props.auth.isAuthenticated} />
+                    )}
                 </div>
             </div>
         );

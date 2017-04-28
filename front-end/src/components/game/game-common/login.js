@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Input, Button } from 'semantic-ui-react';
+import { Input, Button, Message } from 'semantic-ui-react';
 
 import * as authActions from '../../../actions/authActions';
 import * as gameActions from '../../../actions/gameActions';
@@ -50,18 +50,31 @@ class Login extends React.Component {
     render() {
         let isAuthenticated = this.props.auth.isAuthenticated;
         return (
-            <div className="login-area">
+            <div className="container-fluid">
                 {
                     isAuthenticated ?
-                    <Button secondary onClick={this.onLogout}>Logout</Button> :
-                    <div>
-                        <div>
+                    <div className="row">
+                        <div className="col-md-4">
+                            <Button secondary onClick={this.onLogout}>Logout</Button>
+                        </div>
+                    </div> :
+                    <div className="row">
+                        <div className="col-md-5">
+                            <Message>
+                                <Message.Header>
+                                    You are not currently logged in. Please login to activate the game
+                                </Message.Header>
+                            </Message>
+                        </div>
+                        <div className="col-md-2">
                             <Input focus
                                 placeholder="Enter a user Id"
                                 onChange={this.onTextChange}
                                 value={this.state.user.username} />
                         </div>
-                        <Button primary onClick={this.onLogin}>Login</Button>
+                        <div className="col-md-1">
+                            <Button primary onClick={this.onLogin}>Login</Button>
+                        </div>
                     </div>
                 }
             </div>
