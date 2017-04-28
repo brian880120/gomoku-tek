@@ -12,5 +12,8 @@ namespace Tek.Gomoku.Service.Models
         public string BlackSidePlayer { get; set; }
 
         public string WhiteSidePlayer { get; set; }
+
+        public string NextPlayer { get; set; }
     }
 }
+

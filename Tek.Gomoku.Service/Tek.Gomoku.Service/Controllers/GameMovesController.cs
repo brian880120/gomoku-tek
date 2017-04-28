@@ -103,13 +103,22 @@ namespace Tek.Gomoku.Service.Controllers
             }
 
             _context.GameMove.Add(gameMove);
-            await _context.SaveChangesAsync();
 
             var game = _context.Game.FirstOrDefault();
             if (game == null || string.IsNullOrWhiteSpace(game.BlackSidePlayer) && string.IsNullOrWhiteSpace(game.WhiteSidePlayer))
             {
                 return BadRequest("Game not started yet!");
             }
+            if (game.NextPlayer != userName)
+            {
+                return BadRequest("You can't play twice!");
+            }
+
+            var whitePlayer = game.WhiteSidePlayer;
+            var blackPlayer = game.BlackSidePlayer;
+            var currentPlayer = userName;
+            var nextPlayer = currentPlayer == whitePlayer ? blackPlayer : currentPlayer;
+            game.NextPlayer = nextPlayer;
 
             var colorInString = userName == game.BlackSidePlayer ? "black" : "white";
             gameMove.ColorInString = colorInString;

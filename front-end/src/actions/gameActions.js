@@ -2,8 +2,6 @@ import * as types from './actionTypes';
 import axios from 'axios-es6';
 import gameApi from '../api/mockGameApi';
 
-const BASE_URL = 'http://localhost:5000/api/';
-
 function loadGameLayoutSuccess(gameLayoutData) {
     return {
         type: types.LOAD_GAME_LAYOUT_SUCCESS,
