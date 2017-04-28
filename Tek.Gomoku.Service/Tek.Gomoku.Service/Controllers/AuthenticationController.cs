@@ -118,6 +118,7 @@ namespace Tek.Gomoku.Service.Controllers
             {
                 game.WhiteSidePlayer = userName;
             }
+            game.NextPlayer = game.BlackSidePlayer;
 
             await _context.SaveChangesAsync();
 

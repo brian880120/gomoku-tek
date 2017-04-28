@@ -109,15 +109,16 @@ namespace Tek.Gomoku.Service.Controllers
             {
                 return BadRequest("Game not started yet!");
             }
+
             if (game.NextPlayer != userName)
             {
-                return BadRequest("You can't play twice!");
+                return BadRequest("!It's not your turn");
             }
 
             var whitePlayer = game.WhiteSidePlayer;
             var blackPlayer = game.BlackSidePlayer;
             var currentPlayer = userName;
-            var nextPlayer = currentPlayer == whitePlayer ? blackPlayer : currentPlayer;
+            var nextPlayer = currentPlayer == whitePlayer ? blackPlayer : whitePlayer;
             game.NextPlayer = nextPlayer;
 
             var colorInString = userName == game.BlackSidePlayer ? "black" : "white";
