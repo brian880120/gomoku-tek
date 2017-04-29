@@ -23,7 +23,9 @@ store.dispatch(loadGameLayout());
 socket.onmessage = function(event) {
     let moveData = JSON.parse(event.data);
     store.dispatch(updateGameStatus(moveData));
-    store.dispatch(getCurrentPlayers(moveData.blackSidePlayer, moveData.whiteSidePlayer));
+    if (moveData.blackSidePlayer || moveData.whiteSidePlayer) {
+        store.dispatch(getCurrentPlayers(moveData.blackSidePlayer, moveData.whiteSidePlayer));
+    }
 };
 
 render(
