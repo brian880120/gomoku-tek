@@ -1,7 +1,6 @@
 import * as types from './actionTypes';
 import axios from 'axios-es6';
-
-const BASE_URL = 'http://192.168.2.13:5000/api/';
+import { BASE_URL } from '../api/apiConfig';
 
 function requestLogin(creds) {
     return {

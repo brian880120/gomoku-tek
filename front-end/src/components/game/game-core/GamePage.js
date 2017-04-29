@@ -7,10 +7,8 @@ import GameColumn from './GameColumn';
 import gameApi from '../../../api/mockGameApi';
 import * as gameActions from '../../../actions/gameActions';
 import PlayerPanel from '../game-common/gamePlayerPanel';
-
+import { BASE_URL } from '../../../api/apiConfig';
 import * as _ from 'lodash';
-
-const BASE_URL = 'http://192.168.2.13:5000/api/';
 
 class GamePage extends React.Component {
     constructor(props, context) {

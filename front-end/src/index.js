@@ -10,18 +10,17 @@ import configureStore from './store/configureStore';
 import { loadGameLayout, updateGameStatus } from './actions/gameActions';
 import { initAuthStatus } from './actions/authActions';
 import { getCurrentPlayers } from './actions/playerActions';
+import { WS_BASE_URL } from './api/apiConfig';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/semantic-ui/dist/semantic.min.css';
 import './styles/styles.css';
 
-const connectionUrl = 'ws://192.168.2.13:5000/ws';
-const socket = new WebSocket(connectionUrl);
+const socket = new WebSocket(WS_BASE_URL);
 const store = configureStore();
 store.dispatch(initAuthStatus());
 store.dispatch(loadGameLayout());
 socket.onmessage = function(event) {
-    console.log(event);
     let moveData = JSON.parse(event.data);
     store.dispatch(updateGameStatus(moveData));
     store.dispatch(getCurrentPlayers(moveData.blackSidePlayer, moveData.whiteSidePlayer));

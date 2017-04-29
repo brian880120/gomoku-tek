@@ -7,7 +7,7 @@ import { Button } from 'semantic-ui-react';
 import * as gameActions from '../../../actions/gameActions';
 import * as authActions from '../../../actions/authActions';
 
-const BASE_URL = 'http://192.168.2.13:5000/api/';
+import { BASE_URL } from '../../../api/apiConfig';
 
 class Logout extends React.Component {
     constructor() {
