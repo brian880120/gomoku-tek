@@ -45,6 +45,10 @@
     width: 80%;
 }
 
+.active-player {
+    border: 1px solid green;
+}
+
 .game {
     width: 60%;
     display: flex;

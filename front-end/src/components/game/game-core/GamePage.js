@@ -10,7 +10,7 @@ import PlayerPanel from '../game-common/gamePlayerPanel';
 
 import * as _ from 'lodash';
 
-const BASE_URL = 'http://localhost:5000/api/';
+const BASE_URL = 'http://192.168.2.13:5000/api/';
 
 class GamePage extends React.Component {
     constructor(props, context) {
@@ -67,6 +67,11 @@ class GamePage extends React.Component {
         }
         return (
             <div className="container-fluid">
+                {
+                    isAuthenticated ?
+                    <PlayerPanel /> :
+                    ''
+                }
                 <div className="row">
                     <div className="game col-md-8">
                         {layoutData.map(columnData =>
@@ -76,9 +81,6 @@ class GamePage extends React.Component {
                                     handleUnitClick={this.handleUnitClick}
                                     isAuthenticated={this.props.auth.isAuthenticated} />
                         )}
-                    </div>
-                    <div className="col-md-4">
-                        <PlayerPanel />
                     </div>
                 </div>
             </div>
