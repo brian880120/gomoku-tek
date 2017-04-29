@@ -21,10 +21,19 @@ const store = configureStore();
 store.dispatch(initAuthStatus());
 store.dispatch(loadGameLayout());
 socket.onmessage = function(event) {
-    let moveData = JSON.parse(event.data);
-    store.dispatch(updateGameStatus(moveData));
-    if (moveData.blackSidePlayer || moveData.whiteSidePlayer) {
-        store.dispatch(getCurrentPlayers(moveData.blackSidePlayer, moveData.whiteSidePlayer));
+    console.log(event);
+    let messageData = JSON.parse(event.data);
+    let gameData = null;
+    let moveData = null;
+    if (messageData.type === 'Game') {
+        gameData = messageData.payload;
+        if (gameData.blackSidePlayer || gameData.whiteSidePlayer) {
+            store.dispatch(getCurrentPlayers(gameData.blackSidePlayer, gameData.whiteSidePlayer));
+        }
+    }
+    if (messageData.type === 'GameMove') {
+        moveData = messageData.payload;
+        store.dispatch(updateGameStatus(moveData));
     }
 };
 

@@ -89,11 +89,23 @@ function requestLogout() {
     };
 }
 
-export function logoutUser() {
+export function logoutUser(token) {
+    let config = {
+        method: 'delete',
+        url: BASE_URL + 'authentication/token',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'bearer ' + token
+        }
+    };
     return dispatch => {
         dispatch(requestLogout());
-        localStorage.removeItem('id_token');
-        localStorage.removeItem('username');
-        dispatch(receiveLogout());
+        return axios(config).then(function(res) {
+            localStorage.removeItem('id_token');
+            localStorage.removeItem('username');
+            dispatch(receiveLogout());
+        }, function(err) {
+            throw(err);
+        });
     };
 }

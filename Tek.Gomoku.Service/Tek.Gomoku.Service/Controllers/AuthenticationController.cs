@@ -15,6 +15,7 @@ using System.Text;
 using Tek.Gomoku.Service.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Tek.Gomoku.Service.Controllers
 {
@@ -145,6 +146,8 @@ namespace Tek.Gomoku.Service.Controllers
             {
                 game.WhiteSidePlayer = null;
             }
+
+            await _context.GameMove.ForEachAsync(p => _context.GameMove.Remove(p));
 
             await _context.SaveChangesAsync();
 

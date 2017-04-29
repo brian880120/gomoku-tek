@@ -17,15 +17,7 @@ class Logout extends React.Component {
 
 
     onLogout() {
-        let config = {
-            method: 'delete',
-            url: BASE_URL + 'gameMoves',
-            headers: {
-                Authorization: 'bearer ' + this.props.auth.id_token
-            }
-        };
-        this.props.gameActions.deleteGameStatus(config);
-        this.props.authActions.logoutUser();
+        this.props.authActions.logoutUser(this.props.auth.id_token);
     }
 
     render() {
