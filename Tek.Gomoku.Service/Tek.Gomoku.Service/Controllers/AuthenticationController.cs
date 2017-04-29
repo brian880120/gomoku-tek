@@ -155,8 +155,12 @@ namespace Tek.Gomoku.Service.Controllers
         {
             try
             {
-                var jsonString = JsonConvert.SerializeObject(game, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
-                await _socketService.BroadcastMessage(jsonString);
+                var webSocketMessage = new WebSocketMessage()
+                {
+                    Type = "Game",
+                    Payload = game
+                };
+                await _socketService.BroadcastMessage(webSocketMessage);
             }
             catch
             {

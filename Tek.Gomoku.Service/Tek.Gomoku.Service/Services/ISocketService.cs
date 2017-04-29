@@ -11,6 +11,6 @@ namespace Tek.Gomoku.Service.Services
     {
         Task AddSocket(WebSocketManager socketManager);
 
-        Task BroadcastMessage(string message);
+        Task BroadcastMessage(WebSocketMessage message);
     }
 }

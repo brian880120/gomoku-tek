@@ -113,10 +113,12 @@ namespace Tek.Gomoku.Service.Controllers
             await _context.Game.ForEachAsync(p => _context.Game.Remove(p));
             await _context.SaveChangesAsync();
 
-            var jsonString = JsonConvert.SerializeObject(
-                new Game(), 
-                new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
-            await _socketService.BroadcastMessage(jsonString);
+            var webSocketMessage = new WebSocketMessage()
+            {
+                Type = "Game",
+                Payload = new Game()
+            };
+            await _socketService.BroadcastMessage(webSocketMessage);
 
             return Ok();
         }

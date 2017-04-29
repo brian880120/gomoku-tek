@@ -126,10 +126,13 @@ namespace Tek.Gomoku.Service.Controllers
 
             await _context.SaveChangesAsync();
 
-            var jsonString = JsonConvert.SerializeObject(
-                gameMove, 
-                new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
-            await _socketService.BroadcastMessage(jsonString);
+            var webSocketMessage = new WebSocketMessage()
+            {
+                Type = "GameMove",
+                Payload = gameMove
+            };
+
+            await _socketService.BroadcastMessage(webSocketMessage);
 
             return CreatedAtAction("GetGameMove", new { id = gameMove.ID }, gameMove);
         }

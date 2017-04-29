@@ -6,6 +6,8 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Tek.Gomoku.Service.Services
 {
@@ -25,11 +27,15 @@ namespace Tek.Gomoku.Service.Services
             await CloseSocketWhenNeed(socket);
         }
 
-        public async Task BroadcastMessage(string message)
+        public async Task BroadcastMessage(WebSocketMessage message)
         {
+            var jsonString = JsonConvert.SerializeObject(
+                message,
+                new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+
             foreach (var socket in _sockets)
             {
-                var messageCharArray = Encoding.ASCII.GetBytes(message);
+                var messageCharArray = Encoding.ASCII.GetBytes(jsonString);
 
                 var buffer = new ArraySegment<byte>(messageCharArray, 0, messageCharArray.Length);
 
