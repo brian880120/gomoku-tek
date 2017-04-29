@@ -16,17 +16,15 @@ class GamePage extends React.Component {
         this.handleUnitClick = this.handleUnitClick.bind(this);
     }
 
-    componentDidMount() {
-        if (this.props.auth.isAuthenticated) {
-            let config = {
-                method: 'get',
-                url: BASE_URL + 'gameMoves',
-                headers: {
-                    Authorization: 'bearer ' + this.props.auth.id_token
-                }
-            };
-            this.props.actions.getGameStatus(config);
-        }
+    componentWillMount() {
+        let config = {
+            method: 'get',
+            url: BASE_URL + 'gameMoves',
+            headers: {
+                Authorization: 'bearer ' + this.props.auth.id_token
+            }
+        };
+        this.props.actions.getGameStatus(config);
     }
 
     handleUnitClick(columnId, unitId, event) {
@@ -34,12 +32,14 @@ class GamePage extends React.Component {
         if (!this.props.auth.isAuthenticated) {
             return;
         }
+        let columnIndex = unitId.split('-')[0];
+        let rowIndex = unitId.split('-')[1];
         let config = {
             method: 'post',
             url: BASE_URL + 'gamemoves',
             data: {
-                columnIndex: columnId,
-                rowIndex: unitId
+                columnIndex: columnIndex,
+                rowIndex: rowIndex
             },
             headers: {
                 Authorization: 'bearer ' + this.props.auth.id_token
@@ -48,11 +48,11 @@ class GamePage extends React.Component {
 
         let occupiedPositions = this.props.statusData;
         axios(config).then(function(response) {
-            gameApi.checkWinner(occupiedPositions, {
-                columnId: response.data.columnIndex,
-                unitId: response.data.rowIndex,
-                color: response.data.colorInString
-            });
+            // gameApi.checkWinner(occupiedPositions, {
+            //     columnId: response.data.columnIndex,
+            //     unitId: response.data.rowIndex,
+            //     color: response.data.colorInString
+            // });
         });
     }
 

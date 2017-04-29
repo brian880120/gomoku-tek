@@ -5,7 +5,7 @@ const MAX_ROW_INDEX = 15;
 const MAX_COL_INDEX = 18;
 
 const gameLayoutData = [{
-    id: 'column1',
+    id: 1,
     data: [{
         id: '1-1'
     }, {
@@ -38,7 +38,7 @@ const gameLayoutData = [{
         id: '1-15'
     }]
 }, {
-    id: 'column2',
+    id: 2,
     data: [
         {
             id: '2-1'
@@ -87,7 +87,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column3',
+    id: 3,
     data: [
         {
             id: '3-1'
@@ -136,7 +136,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column4',
+    id: 4,
     data: [
         {
             id: '4-1'
@@ -185,7 +185,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column5',
+    id: 5,
     data: [
         {
             id: '5-1'
@@ -234,7 +234,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column6',
+    id: 6,
     data: [
         {
             id: '6-1'
@@ -283,7 +283,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column7',
+    id: 7,
     data: [
         {
             id: '7-1'
@@ -332,7 +332,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column8',
+    id: 8,
     data: [
         {
             id: '8-1'
@@ -381,7 +381,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column9',
+    id: 9,
     data: [
         {
             id: '9-1'
@@ -430,7 +430,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column10',
+    id: 10,
     data: [
         {
             id: '10-1'
@@ -479,7 +479,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column11',
+    id: 11,
     data: [
         {
             id: '11-1'
@@ -528,7 +528,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column12',
+    id: 12,
     data: [
         {
             id: '12-1'
@@ -577,7 +577,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column13',
+    id: 13,
     data: [
         {
             id: '13-1'
@@ -626,7 +626,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column14',
+    id: 14,
     data: [
         {
             id: '14-1'
@@ -675,7 +675,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column15',
+    id: 15,
     data: [
         {
             id: '15-1'
@@ -724,7 +724,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column16',
+    id: 16,
     data: [
         {
             id: '16-1'
@@ -773,7 +773,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column17',
+    id: 17,
     data: [
         {
             id: '17-1'
@@ -822,7 +822,7 @@ const gameLayoutData = [{
         }
     ]
 }, {
-    id: 'column18',
+    id: 18,
     data: [
         {
             id: '18-1'

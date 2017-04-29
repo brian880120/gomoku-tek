@@ -21,7 +21,6 @@ const store = configureStore();
 store.dispatch(initAuthStatus());
 store.dispatch(loadGameLayout());
 socket.onmessage = function(event) {
-    console.log(event);
     let messageData = JSON.parse(event.data);
     let gameData = null;
     let moveData = null;

@@ -27,10 +27,11 @@ class GameUnit extends React.Component {
     }
 
     render() {
-        let unitId = this.props.unitId;
+        let columnId = parseInt(this.props.unitId.split('-')[0]);
+        let unitId = parseInt(this.props.unitId.split('-')[1]);
         let columnStatusData = this.props.columnStatusData;
         let targetUnit = _.find(columnStatusData, function(data) {
-            return data.unitId === unitId;
+            return data.unitId == unitId && data.columnId == columnId;
         });
         let pieceClass = '';
         if (targetUnit) {
@@ -67,7 +68,7 @@ class GameUnit extends React.Component {
 }
 
 GameUnit.propTypes = {
-    columnId: PropTypes.string.isRequired,
+    columnId: PropTypes.number.isRequired,
     unitId: PropTypes.string.isRequired,
     columnStatusData: PropTypes.array.isRequired,
     handleUnitClick: PropTypes.func.isRequired,
