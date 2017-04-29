@@ -9,9 +9,9 @@ namespace Tek.Gomoku.Service.Models
     {
         public int ID { get; set; }
 
-        public string ColumnIndex { get; set; }
+        public int ColumnIndex { get; set; }
 
-        public string RowIndex { get; set; }
+        public int RowIndex { get; set; }
 
         public string PlayerName { get; set; }
 
