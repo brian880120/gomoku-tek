@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux';
 import GameColumn from './GameColumn';
 import gameApi from '../../../api/mockGameApi';
 import * as gameActions from '../../../actions/gameActions';
+import PlayerPanel from '../game-common/gamePlayerPanel';
+
 import * as _ from 'lodash';
 
 const BASE_URL = 'http://localhost:5000/api/';
@@ -64,15 +66,20 @@ class GamePage extends React.Component {
             statusData = [];
         }
         return (
-            <div>
-                <div className="game">
-                    {layoutData.map(columnData =>
-                        <GameColumn key={columnData.id}
-                                statusData={statusData}
-                                columnData={columnData}
-                                handleUnitClick={this.handleUnitClick}
-                                isAuthenticated={this.props.auth.isAuthenticated} />
-                    )}
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="game col-md-8">
+                        {layoutData.map(columnData =>
+                            <GameColumn key={columnData.id}
+                                    statusData={statusData}
+                                    columnData={columnData}
+                                    handleUnitClick={this.handleUnitClick}
+                                    isAuthenticated={this.props.auth.isAuthenticated} />
+                        )}
+                    </div>
+                    <div className="col-md-4">
+                        <PlayerPanel />
+                    </div>
                 </div>
             </div>
         );

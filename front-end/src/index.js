@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import { loadGameLayout, updateGameStatus } from './actions/gameActions';
 import { initAuthStatus } from './actions/authActions';
+import { getCurrentPlayers } from './actions/playerActions';
 
 import './styles/styles.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -19,10 +20,11 @@ const socket = new WebSocket(connectionUrl);
 const store = configureStore();
 store.dispatch(initAuthStatus());
 store.dispatch(loadGameLayout());
-
 socket.onmessage = function(event) {
+    console.log(event);
     let moveData = JSON.parse(event.data);
     store.dispatch(updateGameStatus(moveData));
+    store.dispatch(getCurrentPlayers(moveData.blackSidePlayer, moveData.whiteSidePlayer));
 };
 
 render(
