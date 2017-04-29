@@ -22,12 +22,18 @@ namespace Tek.Gomoku.Service.Controllers
         private readonly GameContext _context;
         private readonly ISocketService _socketService;
         private readonly IUserInfoService _userInfoService;
+        private readonly IGameJudgement _judgement;
 
-        public GameMovesController(GameContext context, ISocketService socketService, IUserInfoService userInfoService)
+        public GameMovesController(
+            GameContext context, 
+            ISocketService socketService, 
+            IUserInfoService userInfoService,
+            IGameJudgement judgement)
         {
             _context = context;
             _socketService = socketService;
             _userInfoService = userInfoService;
+            _judgement = judgement;
         }
 
         // GET: api/GameMoves
@@ -126,13 +132,27 @@ namespace Tek.Gomoku.Service.Controllers
 
             await _context.SaveChangesAsync();
 
-            var webSocketMessage = new WebSocketMessage()
-            {
-                Type = "GameMove",
-                Payload = gameMove
-            };
+            var occupiedPositon = await _context.GameMove.ToArrayAsync();
+            var result = _judgement.Check(gameMove, occupiedPositon);
 
-            await _socketService.BroadcastMessage(webSocketMessage);
+            if (!result)
+            {
+                var webSocketMessage = new WebSocketMessage()
+                {
+                    Type = "GameMove",
+                    Payload = gameMove
+                };
+                await _socketService.BroadcastMessage(webSocketMessage);
+            }
+            else
+            {
+                var webSocketMessage = new WebSocketMessage()
+                {
+                    Type = "GameConclude",
+                    Payload = gameMove
+                };
+                await _socketService.BroadcastMessage(webSocketMessage);
+            }
 
             return CreatedAtAction("GetGameMove", new { id = gameMove.ID }, gameMove);
         }

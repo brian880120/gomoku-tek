@@ -40,6 +40,7 @@ namespace Tek.Gomoku.Service
             services.AddTransient<IdentityInitializer>();
             services.AddSingleton(Configuration);
             services.AddTransient(typeof(IUserInfoService), typeof(UserInfoService));
+            services.AddTransient(typeof(IGameJudgement), typeof(GameJudgement));
 
             services.AddDbContext<GameContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("GameContext")));
