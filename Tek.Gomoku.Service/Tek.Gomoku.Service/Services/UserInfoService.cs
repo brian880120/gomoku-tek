@@ -11,6 +11,10 @@ namespace Tek.Gomoku.Service.Services
         public string GetUserName(ClaimsPrincipal principal)
         {
             var claim = principal.Claims.Where(p => p.Type == ClaimTypes.NameIdentifier).FirstOrDefault();
+            if (claim == null)
+            {
+                return string.Empty;
+            }
             return claim.Value;
         }
     }
