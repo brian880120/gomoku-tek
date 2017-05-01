@@ -8,6 +8,12 @@
     display: flex;
 }
 
+.reset-button {
+    height: 40px;
+    margin-left: 50px;
+    margin-top: 45px;
+}
+
 .header-icon {
     height: 135px;
     width: 140px;
@@ -46,7 +52,7 @@
 }
 
 .active-player {
-    border: 1px solid green;
+    color: red;
 }
 
 .game {

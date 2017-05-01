@@ -7,9 +7,9 @@ import io from 'socket.io-client';
 
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
-import { loadGameLayout, updateGameStatus } from './actions/gameActions';
-import { initAuthStatus } from './actions/authActions';
-import { getCurrentPlayers } from './actions/playerActions';
+import { loadGameLayout, updateGameStatus, cleanGameStatus } from './actions/gameActions';
+import { initAuthStatus, resetGame } from './actions/authActions';
+import { getCurrentPlayers, getActivePlayer } from './actions/playerActions';
 import { WS_BASE_URL } from './api/apiConfig';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -26,13 +26,17 @@ socket.onmessage = function(event) {
     let moveData = null;
     if (messageData.type === 'Game') {
         gameData = messageData.payload;
-        if (gameData.blackSidePlayer || gameData.whiteSidePlayer) {
-            store.dispatch(getCurrentPlayers(gameData.blackSidePlayer, gameData.whiteSidePlayer));
+        if (gameData.status === 'Initial') {
+            store.dispatch(resetGame());
+            store.dispatch(cleanGameStatus());
         }
-        if(gameData.status === 'BlackSideWon') {
-            alert('Black side won!');
-        } else if(gameData.status === 'WhiteSideWon') {
-            alert('White side won!');
+        if (gameData.blackSidePlayer || gameData.whiteSidePlayer) {
+            store.dispatch(getCurrentPlayers(
+                gameData.blackSidePlayer,
+                gameData.whiteSidePlayer,
+                gameData.nextPlayer,
+                gameData.status
+            ));
         }
     } else if (messageData.type === 'GameMove') {
         moveData = messageData.payload;

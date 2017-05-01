@@ -66,3 +66,10 @@ export function deleteGameStatus(config) {
         });
     };
 }
+
+export function cleanGameStatus() {
+    return {
+        type: types.CLEAN_GAME_STATUS,
+        gameStatusData: []
+    }
+}

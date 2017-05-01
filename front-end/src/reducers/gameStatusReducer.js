@@ -16,6 +16,9 @@ function gameStatusReducer(state = initialState.gameStatus, action) {
         case types.DELETE_GAME_STATUS:
             return action.gameStatusData;
 
+        case types.CLEAN_GAME_STATUS:
+            return action.gameStatusData;
+
         default:
             return state;
     }

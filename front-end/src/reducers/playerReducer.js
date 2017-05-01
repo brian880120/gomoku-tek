@@ -6,6 +6,9 @@ function gamePlayerReducer(state = initialState.players, action) {
         case types.GET_CURRENT_PLAYERS:
             return action.gamePlayers;
 
+        case types.GET_ACTIVE_PLAYER:
+            return action.activePlayer;
+
         default:
             return state;
     }

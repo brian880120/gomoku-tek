@@ -21,6 +21,8 @@ class PlayerPanel extends React.Component {
                 return (
                     <PlayerCard key={player.name}
                             playerName={player.name}
+                            isActive={player.isActive}
+                            isWinner={player.isWinner}
                             playerSide={player.color}
                             isCurrentPlayer={isCurrentPlayer} />
                 );

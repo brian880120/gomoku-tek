@@ -111,6 +111,7 @@ namespace Tek.Gomoku.Service.Controllers
                 }
 
                 await _gameService.Move(userName, gameMove);
+                return Ok();
             }
             catch (Exception ex)
             {

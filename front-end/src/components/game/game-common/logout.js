@@ -15,7 +15,6 @@ class Logout extends React.Component {
         this.onLogout = this.onLogout.bind(this);
     }
 
-
     onLogout() {
         this.props.authActions.logoutUser(this.props.auth.id_token);
     }

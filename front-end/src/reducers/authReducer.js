@@ -37,6 +37,11 @@ function authReducer(state = initialState.auth, action) {
                 isAuthenticated: false
             });
 
+        case types.RESET_GAME:
+            return Object.assign({}, state, {
+                isAuthenticated: false,
+                isFetching: false
+            });
         default:
             return state;
     }
