@@ -14,6 +14,10 @@ namespace Tek.Gomoku.Service.Models
         public string WhiteSidePlayer { get; set; }
 
         public string NextPlayer { get; set; }
+
+        public string Status { get; set; }
+
+        public string Winner { get; set; }
     }
 }
 

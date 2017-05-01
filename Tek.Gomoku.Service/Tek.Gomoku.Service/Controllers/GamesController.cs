@@ -111,12 +111,18 @@ namespace Tek.Gomoku.Service.Controllers
             }
 
             await _context.Game.ForEachAsync(p => _context.Game.Remove(p));
+            var game = new Game()
+            {
+                Status = GameStatus.Initial
+            };
+            await _context.GameMove.ForEachAsync(p => _context.GameMove.Remove(p));
+
             await _context.SaveChangesAsync();
 
             var webSocketMessage = new WebSocketMessage()
             {
                 Type = "Game",
-                Payload = new Game()
+                Payload = game
             };
             await _socketService.BroadcastMessage(webSocketMessage);
 

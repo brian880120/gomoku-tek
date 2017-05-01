@@ -23,151 +23,20 @@ namespace Tek.Gomoku.Service.Controllers
     public class AuthenticationController : Controller
     {
         private ILogger<AuthenticationController> _logger;
-        private UserManager<Player> _userMgr;
-        private IPasswordHasher<Player> _hasher;
-        private IConfigurationRoot _config;
         private readonly IUserInfoService _userInfoService;
-        private readonly ISocketService _socketService;
-        private readonly GameContext _context;
+        private readonly IGameService _gameSerivce;
+        private readonly IJWTService _jwtService;
 
         public AuthenticationController(
-            UserManager<Player> userMgr,
-            IPasswordHasher<Player> hasher,
             ILogger<AuthenticationController> logger,
-            IConfigurationRoot config,
             IUserInfoService userInfoService,
-            ISocketService socketService,
-            GameContext context)
+            IGameService gameService,
+            IJWTService jwtService)
         {
             _logger = logger;
-            _userMgr = userMgr;
-            _hasher = hasher;
-            _config = config;
             _userInfoService = userInfoService;
-            _socketService = socketService;
-            _context = context;
-        }
-
-        private async Task<Player> AddNewUser(string userName)
-        {
-            var player = new Player()
-            {
-                UserName = userName,
-                Email = userName + "@teksystems.com"
-            };
-
-            var userResult = await _userMgr.CreateAsync(player, "P@ssw0rd!");
-            var roleResult = await _userMgr.AddToRoleAsync(player, "Admin");
-            var claimResult = await _userMgr.AddClaimAsync(player, new Claim("SuperUser", "True"));
-
-            if (!userResult.Succeeded || !roleResult.Succeeded || !claimResult.Succeeded)
-            {
-                throw new InvalidOperationException("Failed to add new user!");
-            }
-
-            return player;
-        }
-
-        private async Task<JwtSecurityToken> CreateToken(string userName)
-        {
-            var user = await _userMgr.FindByNameAsync(userName);
-            if (user == null)
-            {
-                user = await AddNewUser(userName);
-            }
-
-            var userClaims = await _userMgr.GetClaimsAsync(user);
-
-            var claims = new[]
-            {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email)
-                }.Union(userClaims);
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: _config["Tokens:Issuer"],
-                audience: _config["Tokens:Audience"],
-                claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(15),
-                signingCredentials: creds);
-
-            return token;
-        }
-
-        private async Task<Game> JoinGame(string userName)
-        {
-            var game = _context.Game.FirstOrDefault();
-            if (game == null)
-            {
-                game = new Game();
-                await _context.Game.AddAsync(game);
-            }
-            else if (!string.IsNullOrWhiteSpace(game.BlackSidePlayer) && !string.IsNullOrWhiteSpace(game.WhiteSidePlayer))
-            {
-                throw new InvalidOperationException("Game has started!");
-            }
-
-            if(string.IsNullOrWhiteSpace(game.BlackSidePlayer))
-            {
-                game.BlackSidePlayer = userName;
-            } 
-            else
-            {
-                game.WhiteSidePlayer = userName;
-            }
-            game.NextPlayer = game.BlackSidePlayer;
-
-            await _context.SaveChangesAsync();
-
-            return game;
-        }
-
-        private async Task<Game> QuitGame(string userName)
-        {
-            var game = _context.Game.FirstOrDefault();
-            if (game == null)
-            {
-                throw new InvalidOperationException("Game not started yet!");
-            }
-            else if (game.BlackSidePlayer != userName && game.WhiteSidePlayer != userName)
-            {
-                throw new InvalidOperationException($"{userName} is not part of the game!");
-            }
-
-            if (game.BlackSidePlayer == userName)
-            {
-                game.BlackSidePlayer = null;
-            }
-            else
-            {
-                game.WhiteSidePlayer = null;
-            }
-
-            await _context.GameMove.ForEachAsync(p => _context.GameMove.Remove(p));
-
-            await _context.SaveChangesAsync();
-
-            return game;
-        }
-
-        private async Task BroadcastGameInfo(Game game)
-        {
-            try
-            {
-                var webSocketMessage = new WebSocketMessage()
-                {
-                    Type = "Game",
-                    Payload = game
-                };
-                await _socketService.BroadcastMessage(webSocketMessage);
-            }
-            catch
-            {
-            }
+            _gameSerivce = gameService;
+            _jwtService = jwtService;
         }
 
         [HttpPost("api/authentication/token")]
@@ -177,15 +46,11 @@ namespace Tek.Gomoku.Service.Controllers
             {
                 if (string.IsNullOrWhiteSpace(model.UserName))
                 {
-                    throw new InvalidOperationException("UserName is required parameter");
+                    throw new InvalidOperationException("UserName is required!");
                 }
 
-                var game = await JoinGame(model.UserName);
-
-                await BroadcastGameInfo(game);
-
-                var token = await CreateToken(model.UserName);
-
+                var token = await _jwtService.CreateToken(model.UserName);
+                await _gameSerivce.SignIn(model.UserName);
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
@@ -206,15 +71,12 @@ namespace Tek.Gomoku.Service.Controllers
             try
             {
                 var userName = _userInfoService.GetUserName(User);
-
                 if (string.IsNullOrWhiteSpace(userName))
                 {
                     throw new InvalidOperationException("You haven't signed in yet!");
                 }
 
-                var game = await QuitGame(userName);
-
-                await BroadcastGameInfo(game);
+                await _gameSerivce.SignOut(userName);
 
                 return Ok();
             }

@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using Tek.Gomoku.Service.Models;
-using Microsoft.AspNetCore.Http;
-using System.Net.WebSockets;
-using System.Threading;
-using Tek.Gomoku.Service.Services;
-using Newtonsoft.Json.Serialization;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Text;
+using Tek.Gomoku.Service.Models;
+using Tek.Gomoku.Service.Services;
 
 namespace Tek.Gomoku.Service
 {
@@ -38,9 +31,12 @@ namespace Tek.Gomoku.Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IdentityInitializer>();
+            services.AddTransient<GameInitializer>();
             services.AddSingleton(Configuration);
             services.AddTransient(typeof(IUserInfoService), typeof(UserInfoService));
-            services.AddTransient(typeof(IGameJudgement), typeof(GameJudgement));
+            services.AddTransient(typeof(IGameJudgementService), typeof(GameJudgementService));
+            services.AddTransient(typeof(IGameService), typeof(GameService));
+            services.AddTransient(typeof(IJWTService), typeof(JWTService));
 
             services.AddDbContext<GameContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("GameContext")));
@@ -68,7 +64,8 @@ namespace Tek.Gomoku.Service
             IApplicationBuilder app, 
             IHostingEnvironment env, 
             ILoggerFactory loggerFactory,
-            IdentityInitializer identityInitializer)
+            IdentityInitializer identityInitializer,
+            GameInitializer gameInitializer)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -123,6 +120,7 @@ namespace Tek.Gomoku.Service
             app.UseFileServer();
 
             identityInitializer.Seed().Wait();
+            gameInitializer.Seed().Wait();
         }
 
         private ISocketService _socketService = new SocketService();

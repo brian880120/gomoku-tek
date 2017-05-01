@@ -132,7 +132,11 @@ namespace Tek.Gomoku.Service.Migrations
 
                     b.Property<string>("NextPlayer");
 
+                    b.Property<string>("Status");
+
                     b.Property<string>("WhiteSidePlayer");
+
+                    b.Property<string>("Winner");
 
                     b.HasKey("ID");
 

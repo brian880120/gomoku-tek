@@ -29,8 +29,12 @@ socket.onmessage = function(event) {
         if (gameData.blackSidePlayer || gameData.whiteSidePlayer) {
             store.dispatch(getCurrentPlayers(gameData.blackSidePlayer, gameData.whiteSidePlayer));
         }
-    }
-    if (messageData.type === 'GameMove') {
+        if(gameData.status === 'BlackSideWon') {
+            alert('Black side won!');
+        } else if(gameData.status === 'WhiteSideWon') {
+            alert('White side won!');
+        }
+    } else if (messageData.type === 'GameMove') {
         moveData = messageData.payload;
         store.dispatch(updateGameStatus(moveData));
     }

@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.Logging;
 
 namespace Tek.Gomoku.Service.Services
 {
@@ -39,7 +40,13 @@ namespace Tek.Gomoku.Service.Services
 
                 var buffer = new ArraySegment<byte>(messageCharArray, 0, messageCharArray.Length);
 
-                await socket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
+                try
+                {
+                    await socket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
+                }
+                catch
+                {
+                }
             }
         }
 

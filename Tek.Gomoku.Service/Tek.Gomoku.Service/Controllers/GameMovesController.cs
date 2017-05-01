@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.Extensions.Logging;
 
 namespace Tek.Gomoku.Service.Controllers
 {
@@ -19,21 +20,21 @@ namespace Tek.Gomoku.Service.Controllers
     [Route("api/GameMoves")]
     public class GameMovesController : Controller
     {
+        private readonly ILogger<GameMovesController> _logger;
         private readonly GameContext _context;
-        private readonly ISocketService _socketService;
         private readonly IUserInfoService _userInfoService;
-        private readonly IGameJudgement _judgement;
+        private readonly IGameService _gameService;
 
         public GameMovesController(
+            ILogger<GameMovesController> logger,
             GameContext context, 
-            ISocketService socketService, 
             IUserInfoService userInfoService,
-            IGameJudgement judgement)
+            IGameService gameService)
         {
+            _logger = logger;
             _context = context;
-            _socketService = socketService;
             _userInfoService = userInfoService;
-            _judgement = judgement;
+            _gameService = gameService;
         }
 
         // GET: api/GameMoves
@@ -101,60 +102,22 @@ namespace Tek.Gomoku.Service.Controllers
         [HttpPost]
         public async Task<IActionResult> PostGameMove([FromBody] GameMove gameMove)
         {
-            var userName = _userInfoService.GetUserName(User);
-
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
-
-            _context.GameMove.Add(gameMove);
-
-            var game = _context.Game.FirstOrDefault();
-            if (game == null || string.IsNullOrWhiteSpace(game.BlackSidePlayer) && string.IsNullOrWhiteSpace(game.WhiteSidePlayer))
-            {
-                return BadRequest("Game not started yet!");
-            }
-
-            if (game.NextPlayer != userName)
-            {
-                return BadRequest("!It's not your turn");
-            }
-
-            var whitePlayer = game.WhiteSidePlayer;
-            var blackPlayer = game.BlackSidePlayer;
-            var currentPlayer = userName;
-            var nextPlayer = currentPlayer == whitePlayer ? blackPlayer : whitePlayer;
-            game.NextPlayer = nextPlayer;
-
-            var colorInString = userName == game.BlackSidePlayer ? "black" : "white";
-            gameMove.ColorInString = colorInString;
-
-            await _context.SaveChangesAsync();
-
-            var occupiedPositon = await _context.GameMove.ToArrayAsync();
-            var result = _judgement.Check(gameMove, occupiedPositon);
-
-            if (!result)
-            {
-                var webSocketMessage = new WebSocketMessage()
+                var userName = _userInfoService.GetUserName(User);
+                if (string.IsNullOrWhiteSpace(userName))
                 {
-                    Type = "GameMove",
-                    Payload = gameMove
-                };
-                await _socketService.BroadcastMessage(webSocketMessage);
+                    throw new InvalidOperationException("User name is required!");
+                }
+
+                await _gameService.Move(userName, gameMove);
             }
-            else
+            catch (Exception ex)
             {
-                var webSocketMessage = new WebSocketMessage()
-                {
-                    Type = "GameConclude",
-                    Payload = gameMove
-                };
-                await _socketService.BroadcastMessage(webSocketMessage);
+                _logger.LogError(ex.Message);
             }
 
-            return CreatedAtAction("GetGameMove", new { id = gameMove.ID }, gameMove);
+            return BadRequest("Fail to move");
         }
 
         // DELETE: api/GameMoves
