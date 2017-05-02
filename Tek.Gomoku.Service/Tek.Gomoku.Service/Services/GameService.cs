@@ -12,15 +12,18 @@ namespace Tek.Gomoku.Service.Services
         private readonly GameContext _context;
         private readonly ISocketService _socket;
         private readonly IGameJudgementService _judgement;
+        private readonly IAutoPlayService _autoPlayService;
 
         public GameService(
             GameContext context,
             ISocketService socket,
-            IGameJudgementService judgement)
+            IGameJudgementService judgement,
+            IAutoPlayService autoPlayService)
         {
             _context = context;
             _socket = socket;
             _judgement = judgement;
+            _autoPlayService = autoPlayService;
         }
 
         private async Task<Game> GetGame()
@@ -60,7 +63,30 @@ namespace Tek.Gomoku.Service.Services
             return result;
         }
 
-        public async Task Move(string userName, GameMove move)
+        private async Task AutoPlay()
+        {
+            var game = GetGame();
+
+            var autoMove = _autoPlayService.MakeDecision(_context.GameMove.ToArray());
+            _context.GameMove.Add(autoMove);
+            _context.SaveChanges();
+
+            var message = new WebSocketMessage()
+            {
+                Type = "GameMove",
+                Payload = autoMove
+            };
+            await _socket.BroadcastMessage(message);
+
+            message = new WebSocketMessage()
+            {
+                Type = "Game",
+                Payload = game
+            };
+            await _socket.BroadcastMessage(message);
+        }
+
+        private async Task ManualPlay(string userName, GameMove move)
         {
             var game = await GetGame();
             if (game.Status != GameStatus.Playing)
@@ -97,6 +123,13 @@ namespace Tek.Gomoku.Service.Services
                 Payload = game
             };
             await _socket.BroadcastMessage(message);
+        }
+
+        public async Task Move(string userName, GameMove move)
+        {
+            await ManualPlay(userName, move);
+
+            await AutoPlay();
         }
 
         public async Task SignIn(string userName)
