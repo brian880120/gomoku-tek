@@ -4,10 +4,9 @@ import axios from 'axios-es6';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import GameColumn from './GameColumn';
-import gameApi from '../../../api/mockGameApi';
 import * as gameActions from '../../../actions/gameActions';
 import PlayerPanel from '../game-common/gamePlayerPanel';
-import { BASE_URL } from '../../../api/apiConfig';
+import { BASE_URL, getInitialGameStatus } from '../../../api/apiConfig';
 import * as _ from 'lodash';
 
 class GamePage extends React.Component {
@@ -27,41 +26,27 @@ class GamePage extends React.Component {
         this.props.actions.getGameStatus(config);
     }
 
-    handleUnitClick(columnId, unitId, event) {
+    handleUnitClick(columnIndex, rowIndex, event) {
         event.preventDefault();
         if (!this.props.auth.isAuthenticated) {
             return;
         }
-        let columnIndex = unitId.split('-')[0];
-        let rowIndex = unitId.split('-')[1];
         let config = {
             method: 'post',
             url: BASE_URL + 'gamemoves',
-            data: {
-                columnIndex: columnIndex,
-                rowIndex: rowIndex
-            },
+            data: { columnIndex, rowIndex },
             headers: {
                 Authorization: 'bearer ' + this.props.auth.id_token
             }
         };
-
-        let occupiedPositions = this.props.statusData;
-        axios(config).then(function(response) {
-            // gameApi.checkWinner(occupiedPositions, {
-            //     columnId: response.data.columnIndex,
-            //     unitId: response.data.rowIndex,
-            //     color: response.data.colorInString
-            // });
-        });
+        axios(config);
     }
 
     render() {
-        const layoutData = this.props.layoutData;
         let statusData = this.props.statusData;
         let isAuthenticated = this.props.auth.isAuthenticated;
-        if (!isAuthenticated) {
-            statusData = [];
+        if (!isAuthenticated || _.isEmpty(statusData)) {
+            statusData = getInitialGameStatus();
         }
         return (
             <div className="container-fluid">
@@ -72,9 +57,9 @@ class GamePage extends React.Component {
                 }
                 <div className="row">
                     <div className="game col-md-8">
-                        {layoutData.map(columnData =>
-                            <GameColumn key={columnData.id}
-                                    statusData={statusData}
+                        {statusData.map(columnData =>
+                            <GameColumn key={statusData.indexOf(columnData)}
+                                    columnIndex={statusData.indexOf(columnData)}
                                     columnData={columnData}
                                     handleUnitClick={this.handleUnitClick}
                                     isAuthenticated={this.props.auth.isAuthenticated} />
@@ -87,26 +72,14 @@ class GamePage extends React.Component {
 }
 
 GamePage.propTypes = {
-    layoutData: PropTypes.array.isRequired,
     statusData: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
-    let gameStatus = state.gameStatus;
-    let parsedGameStatus = [];
-    _.forEach(gameStatus, function(status) {
-        let parsedStatus = {
-            color: status.colorInString,
-            columnId: status.columnIndex,
-            unitId: status.rowIndex
-        };
-        parsedGameStatus.push(parsedStatus);
-    });
     return {
-        layoutData: state.gameLayout,
-        statusData: parsedGameStatus,
+        statusData: state.gameStatus,
         auth: state.auth
     };
 }

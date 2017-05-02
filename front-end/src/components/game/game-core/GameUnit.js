@@ -27,15 +27,12 @@ class GameUnit extends React.Component {
     }
 
     render() {
-        let columnId = parseInt(this.props.unitId.split('-')[0]);
-        let unitId = parseInt(this.props.unitId.split('-')[1]);
-        let columnStatusData = this.props.columnStatusData;
-        let targetUnit = _.find(columnStatusData, function(data) {
-            return data.unitId == unitId && data.columnId == columnId;
-        });
         let pieceClass = '';
-        if (targetUnit) {
-            pieceClass = 'piece ' + targetUnit.color;
+        let unitData = this.props.unitData;
+        let columnIndex = this.props.columnIndex;
+        let rowIndex = this.props.rowIndex;
+        if (unitData.color) {
+            pieceClass = 'piece ' + unitData.color;
         }
 
         return (
@@ -54,11 +51,11 @@ class GameUnit extends React.Component {
                 </div>
                 {
                     this.state.isMouseIn ?
-                        <div className="piece-shadow" onClick={this.props.handleUnitClick.bind(this, this.props.columnId, this.props.unitId)}></div> :
+                        <div className="piece-shadow" onClick={this.props.handleUnitClick.bind(this, columnIndex, rowIndex)}></div> :
                         <div className="piece-hide"></div>
                 }
                 {
-                    targetUnit ?
+                    pieceClass ?
                         <div className={pieceClass}></div> :
                         <div className="piece-hide"></div>
                 }
@@ -68,9 +65,9 @@ class GameUnit extends React.Component {
 }
 
 GameUnit.propTypes = {
-    columnId: PropTypes.number.isRequired,
-    unitId: PropTypes.string.isRequired,
-    columnStatusData: PropTypes.array.isRequired,
+    unitData: PropTypes.object.isRequired,
+    columnIndex: PropTypes.number.isRequired,
+    rowIndex: PropTypes.number.isRequired,
     handleUnitClick: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired
 };
