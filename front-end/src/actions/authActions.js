@@ -113,5 +113,5 @@ export function logoutUser(token) {
 export function resetGame() {
     return {
         type: types.RESET_GAME
-    }
+    };
 }

@@ -1,10 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Image, Button } from 'semantic-ui-react';
 import { BASE_URL } from '../../../api/apiConfig';
 import * as gameActions from '../../../actions/gameActions';
-import * as authActions from '../../../actions/authActions';
 
 class GameHeader extends React.Component {
     constructor() {
@@ -31,15 +31,18 @@ class GameHeader extends React.Component {
     }
 }
 
+GameHeader.propTypes = {
+    gameActions: PropTypes.object.isRequired
+};
+
 function mapStateToProps(state, ownProps) {
     return {};
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        gameActions: bindActionCreators(gameActions, dispatch),
-        authActions: bindActionCreators(authActions, dispatch)
-    }
+        gameActions: bindActionCreators(gameActions, dispatch)
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameHeader);

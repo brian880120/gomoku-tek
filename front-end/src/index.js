@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import { loadGameLayout, updateGameStatus, cleanGameStatus } from './actions/gameActions';
 import { initAuthStatus, resetGame } from './actions/authActions';
-import { getCurrentPlayers, getActivePlayer } from './actions/playerActions';
+import { getCurrentPlayers } from './actions/playerActions';
 import { WS_BASE_URL } from './api/apiConfig';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';

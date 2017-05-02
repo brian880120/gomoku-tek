@@ -71,5 +71,5 @@ export function cleanGameStatus() {
     return {
         type: types.CLEAN_GAME_STATUS,
         gameStatusData: []
-    }
+    };
 }
