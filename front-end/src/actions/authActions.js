@@ -111,6 +111,8 @@ export function logoutUser(token) {
 }
 
 export function resetGame() {
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('username');
     return {
         type: types.RESET_GAME
     };

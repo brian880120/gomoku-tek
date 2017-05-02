@@ -6,18 +6,18 @@ import * as _ from 'lodash';
 class GameColumn extends React.Component {
     render() {
         let statusData = this.props.statusData;
-        let columnId = this.props.columnData.id;
+        let columnIndex = this.props.columnIndex;
         let columnStatusData = _.filter(statusData, function(data) {
-            return columnId === data.columnId;
+            return columnIndex === data.columnIndex;
         });
-
+        let columnData = this.props.columnData;
         return (
             <div className="column">
-                {this.props.columnData.data.map(data =>
-                    <GameUnit key={data.id}
-                            unitId={data.id}
+                {columnData.map(data =>
+                    <GameUnit key={columnData.indexOf(data)}
+                            rowIndex={columnData.indexOf(data)}
+                            columnIndex={columnIndex}
                             columnStatusData={columnStatusData}
-                            columnId={this.props.columnData.id}
                             handleUnitClick={this.props.handleUnitClick}
                             isAuthenticated={this.props.isAuthenticated} />
                 )}
@@ -27,7 +27,8 @@ class GameColumn extends React.Component {
 }
 
 GameColumn.propTypes = {
-    columnData: PropTypes.object.isRequired,
+    columnIndex: PropTypes.number.isRequired,
+    columnData: PropTypes.array.isRequired,
     statusData: PropTypes.array.isRequired,
     handleUnitClick: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired

@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 
 function gameStatusReducer(state = initialState.gameStatus, action) {
     switch(action.type) {
-        case types.INIT_GAME_STATUS_SUCCESS:
+        case types.GET_GAME_STATUS_SUCCESS:
             return action.gameStatusData.data;
 
         case types.UPDATE_GAME_STATUS:

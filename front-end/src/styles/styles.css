@@ -130,3 +130,35 @@
     border-bottom: none;
     border-right: none;
 }
+
+.first-column-cells>div:first-of-type>div:first-of-type {
+    border-bottom: none;
+}
+
+.first-column-cells>div:last-of-type>div:first-of-type {
+    border-top: none;
+}
+
+.last-column-cells>div:first-of-type>div:last-of-type {
+    border-bottom: none;
+}
+
+.last-column-cells>div:last-of-type>div:last-of-type {
+    border-top: none;
+}
+
+.first-row-cells>div:first-of-type>div:first-of-type {
+    border-right: none;
+}
+
+.first-row-cells>div:first-of-type>div:last-of-type {
+    border-left: none;
+}
+
+.last-row-cells>div:last-of-type>div:first-of-type {
+    border-right: none;
+}
+
+.last-row-cells>div:last-of-type>div:last-of-type {
+    border-left: none;
+}
