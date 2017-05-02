@@ -25,7 +25,9 @@ class GameHeader extends React.Component {
             <div className="header-area">
                 <div className="header-icon"></div>
                 <h1>Gomoku</h1>
-                <Button basic color="red" className="reset-button" onClick={this.resetGame}>Reset Game</Button>
+                <div className="reset-button">
+                    <Button basic color="red" onClick={this.resetGame}>Reset Game</Button>
+                </div>
             </div>
         );
     }

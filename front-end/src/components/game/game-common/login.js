@@ -38,24 +38,22 @@ class Login extends React.Component {
                 {
                     this.props.auth.isAuthenticated ?
                     '' :
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-md-5">
-                                <Message>
-                                    <Message.Header>
-                                        You are not currently logged in. Please login to activate the game
-                                    </Message.Header>
-                                </Message>
-                            </div>
-                            <div className="col-md-2">
-                                <Input focus
-                                    placeholder="Enter a user Id"
-                                    onChange={this.onTextChange}
-                                    value={this.state.user.username} />
-                            </div>
-                            <div className="col-md-1">
-                                <Button primary onClick={this.onLogin}>Login</Button>
-                            </div>
+                    <div className="login-area">
+                        <div>
+                            <Message>
+                                <Message.Header>
+                                    Please login to activate the game
+                                </Message.Header>
+                            </Message>
+                        </div>
+                        <div className="login-input">
+                            <Input focus
+                                placeholder="Enter a user Id"
+                                onChange={this.onTextChange}
+                                value={this.state.user.username} />
+                        </div>
+                        <div className="login-button">
+                            <Button primary onClick={this.onLogin}>Login</Button>
                         </div>
                     </div>
                 }

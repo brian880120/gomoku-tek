@@ -11,7 +11,12 @@
 .reset-button {
     height: 40px;
     margin-left: 50px;
-    margin-top: 45px;
+    margin-top: 32px;
+}
+
+.reset-button>button {
+    width: 200px;
+    height: 60px;
 }
 
 .header-icon {
@@ -39,20 +44,49 @@
  }
 
 .login-area {
-    margin-left: 100px;
-    width: 40%;
+    margin-left: 72px;
+    display: flex;
 }
 
-.login-area>div:first-of-type {
-    margin-bottom: 10px;
+.login-area>div:nth-child(1) {
+    margin-right: 123px;
 }
 
-.login-area>input {
-    width: 80%;
+.login-area>div:nth-child(2) {
+    margin-right: 5px;
+}
+
+.login-area>div:nth-child(3) {
+    margin-right: 0;
+}
+
+.login-input>div>input {
+    height: 46px;
+}
+
+.login-button>button {
+    width: 100px;
+    height: 46px;
 }
 
 .active-player {
     color: red;
+}
+
+.card-panel {
+    margin-left: 58px;
+}
+
+.ui.active-player-card, .ui.cards>.active-player-card {
+    background-color: powderblue;
+}
+
+.ui.player-card, .ui.cards>.player-card {
+    background-color: white;
+}
+
+.ui.card, .ui.cards>.card {
+    margin-right: 90px;
 }
 
 .game {
