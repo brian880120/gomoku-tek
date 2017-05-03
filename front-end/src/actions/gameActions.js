@@ -1,17 +1,9 @@
 import * as types from './actionTypes';
 import axios from 'axios-es6';
-import gameApi from '../api/mockGameApi';
 
-function loadGameLayoutSuccess(gameLayoutData) {
+function getGameStatusSuccess(gameStatusData) {
     return {
-        type: types.LOAD_GAME_LAYOUT_SUCCESS,
-        layoutData: gameLayoutData
-    };
-}
-
-function initializeGameStatusSuccess(gameStatusData) {
-    return {
-        type: types.INIT_GAME_STATUS_SUCCESS,
+        type: types.GET_GAME_STATUS_SUCCESS,
         gameStatusData: gameStatusData
     };
 }
@@ -30,20 +22,10 @@ function deleteGameStatusSuccess() {
     };
 }
 
-export function loadGameLayout() {
-    return function(dispatch) {
-        return gameApi.getGameLayoutData().then(gameLayoutData => {
-            dispatch(loadGameLayoutSuccess(gameLayoutData));
-        }).catch(error => {
-            throw(error);
-        });
-    };
-}
-
 export function getGameStatus(config) {
     return function(dispatch) {
         return axios(config).then(function(gameStatusData) {
-            dispatch(initializeGameStatusSuccess(gameStatusData));
+            dispatch(getGameStatusSuccess(gameStatusData));
         }, function(err) {
             throw(err);
         });
@@ -71,5 +53,5 @@ export function cleanGameStatus() {
     return {
         type: types.CLEAN_GAME_STATUS,
         gameStatusData: []
-    }
+    };
 }

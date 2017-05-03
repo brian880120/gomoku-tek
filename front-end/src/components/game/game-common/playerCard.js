@@ -5,8 +5,12 @@ import Logout from './logout';
 import logo from '../../../images/steve.jpg';
 
 const PlayerCard = ({playerName, playerSide, isCurrentPlayer, isActive, isWinner}) => {
+    let cardStyle = 'player-card';
+    if (isActive) {
+        cardStyle = 'active-player-card';
+    }
     return (
-        <Card>
+        <Card className={cardStyle}>
             <Card.Content>
                     <Image floated="right" size="mini" src={logo} />
                     <Card.Header>
@@ -25,7 +29,17 @@ const PlayerCard = ({playerName, playerSide, isCurrentPlayer, isActive, isWinner
                         }
                     </Card.Meta>
                     <Card.Description>
-                        {playerSide}
+                        {
+                            isWinner ?
+                            <div className="winner-star">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div> :
+                            <div>{playerSide}</div>
+                        }
                     </Card.Description>
             </Card.Content>
             {

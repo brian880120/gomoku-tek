@@ -1,0 +1,9 @@
+c:\users\chewang\documents\visual studio 2017\Projects\AlphaBeta\AlphaBeta\bin\Debug\netcoreapp1.1\AlphaBeta.deps.json
+c:\users\chewang\documents\visual studio 2017\Projects\AlphaBeta\AlphaBeta\bin\Debug\netcoreapp1.1\AlphaBeta.runtimeconfig.json
+c:\users\chewang\documents\visual studio 2017\Projects\AlphaBeta\AlphaBeta\bin\Debug\netcoreapp1.1\AlphaBeta.runtimeconfig.dev.json
+c:\users\chewang\documents\visual studio 2017\Projects\AlphaBeta\AlphaBeta\obj\Debug\netcoreapp1.1\AlphaBeta.csprojResolveAssemblyReference.cache
+c:\users\chewang\documents\visual studio 2017\Projects\AlphaBeta\AlphaBeta\obj\Debug\netcoreapp1.1\AlphaBeta.AssemblyInfo.cs
+c:\users\chewang\documents\visual studio 2017\Projects\AlphaBeta\AlphaBeta\bin\Debug\netcoreapp1.1\AlphaBeta.dll
+c:\users\chewang\documents\visual studio 2017\Projects\AlphaBeta\AlphaBeta\bin\Debug\netcoreapp1.1\AlphaBeta.pdb
+c:\users\chewang\documents\visual studio 2017\Projects\AlphaBeta\AlphaBeta\obj\Debug\netcoreapp1.1\AlphaBeta.dll
+c:\users\chewang\documents\visual studio 2017\Projects\AlphaBeta\AlphaBeta\obj\Debug\netcoreapp1.1\AlphaBeta.pdb
