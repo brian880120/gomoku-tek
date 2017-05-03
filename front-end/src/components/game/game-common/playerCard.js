@@ -2,54 +2,43 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Image } from 'semantic-ui-react';
 import Logout from './logout';
-import logo from '../../../images/steve.jpg';
 
 const PlayerCard = ({playerName, playerSide, isCurrentPlayer, isActive, isWinner}) => {
-    let cardStyle = 'player-card';
+    let cardStyle = 'name-card';
     if (isActive) {
-        cardStyle = 'active-player-card';
+        cardStyle = 'name-card name-card-active';
+    }
+    if (isWinner) {
+        cardStyle = 'name-card name-card-win';
     }
     return (
-        <Card className={cardStyle}>
-            <Card.Content>
-                    <Image floated="right" size="mini" src={logo} />
-                    <Card.Header>
-                        {playerName}
-                    </Card.Header>
-                    <Card.Meta>
-                        {
-                            isActive ?
-                                <div className="active-player">Active</div> :
-                                ''
-                        }
-                        {
-                            isWinner ?
-                                <div className="winner">Win!</div> :
-                                ''
-                        }
-                    </Card.Meta>
-                    <Card.Description>
-                        {
-                            isWinner ?
-                            <div className="winner-star">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div> :
-                            <div>{playerSide}</div>
-                        }
-                    </Card.Description>
-            </Card.Content>
+        <div className={cardStyle}>
+            <div className="card-header">
+                <div className="name">{playerName}</div>
+                <div className="card-img">
+                </div>
+            </div>
+            <div className="card-content">
+                {
+                    isWinner ?
+                    <div className="star-area">
+                        <div className="star"></div>
+                        <div className="star"></div>
+                        <div className="star"></div>
+                        <div className="star"></div>
+                        <div className="star"></div>
+                    </div> :
+                    <div className="player-side">{playerSide} side player</div>
+                }
+            </div>
             {
                 isCurrentPlayer ?
-                <Card.Content extra>
+                <div className="card-info-extra">
                     <Logout />
-                </Card.Content> :
+                </div> :
                 ''
             }
-        </Card>
+        </div>
     );
 };
 

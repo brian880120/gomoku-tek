@@ -30,9 +30,7 @@ class PlayerPanel extends React.Component {
         }
         return (
             <div className="card-panel">
-                <Card.Group>
-                    {this.props.players.map(displayPlayer, this)}
-                </Card.Group>
+                {this.props.players.map(displayPlayer, this)}
             </div>
         );
     }
