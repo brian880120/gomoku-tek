@@ -6,9 +6,9 @@ using Tek.Gomoku.Service.Models;
 
 namespace Tek.Gomoku.Service.Services
 {
-    public class Adapter
+    public class GameMoveDataAdapter : IGameMoveDataAdapter
     {
-        public static GameMove AutoPlayMovesToGameMove(AutoPlayMove autoPlayMove)
+        public GameMove AutoPlayMovesToGameMove(AutoPlayMove autoPlayMove)
         {
             var result = new GameMove();
             result.ColumnIndex = autoPlayMove.ColIndex;
@@ -18,7 +18,7 @@ namespace Tek.Gomoku.Service.Services
             return result;
         }
 
-        public static AutoPlayMove[][] GameMovesToAutoPlayMoves(GameMove[] gameMoves)
+        public AutoPlayMove[][] GameMovesToAutoPlayMoves(GameMove[] gameMoves)
         {
             AutoPlayMove[][] board = new AutoPlayMove[16][];
             for (int i = 0; i < 16; i++)

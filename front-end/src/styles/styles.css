@@ -73,6 +73,12 @@
     color: red;
 }
 
+.winner {
+    color: darkgreen;
+    font-size: 48px;
+    font-weight: bold;
+}
+
 .card-panel {
     margin-left: 58px;
 }

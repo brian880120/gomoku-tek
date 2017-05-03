@@ -26,17 +26,20 @@ namespace Tek.Gomoku.Service.Controllers
         private readonly IUserInfoService _userInfoService;
         private readonly IGameService _gameSerivce;
         private readonly IJWTService _jwtService;
+        private readonly IConfigurationRoot _config;
 
         public AuthenticationController(
             ILogger<AuthenticationController> logger,
             IUserInfoService userInfoService,
             IGameService gameService,
-            IJWTService jwtService)
+            IJWTService jwtService,
+            IConfigurationRoot config)
         {
             _logger = logger;
             _userInfoService = userInfoService;
             _gameSerivce = gameService;
             _jwtService = jwtService;
+            _config = config;
         }
 
         [HttpPost("api/authentication/token")]
@@ -50,7 +53,14 @@ namespace Tek.Gomoku.Service.Controllers
                 }
 
                 var token = await _jwtService.CreateToken(model.UserName);
+
                 await _gameSerivce.SignIn(model.UserName);
+
+                if (_config["AutoPlay:Mode"] == "true")
+                {
+                    await _gameSerivce.SignIn("Machine");
+                }
+
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),

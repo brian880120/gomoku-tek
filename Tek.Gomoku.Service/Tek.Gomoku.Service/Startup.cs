@@ -38,6 +38,7 @@ namespace Tek.Gomoku.Service
             services.AddTransient(typeof(IGameService), typeof(GameService));
             services.AddTransient(typeof(IJWTService), typeof(JWTService));
             services.AddTransient(typeof(IAutoPlayService), typeof(AutoPlayService));
+            services.AddTransient(typeof(IGameMoveDataAdapter), typeof(GameMoveDataAdapter));
 
             services.AddDbContext<GameContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("GameContext")));

@@ -7,7 +7,7 @@ namespace Tek.Gomoku.Service.Models
 {
     public class AutoPlayMove
     {
-        public AutoPlayMove(int colIndex, int rowIndex, string color)
+        public AutoPlayMove(int rowIndex, int colIndex, string color)
         {
             ColIndex = colIndex;
             RowIndex = rowIndex;

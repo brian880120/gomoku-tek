@@ -24,7 +24,7 @@ const PlayerCard = ({playerName, playerSide, isCurrentPlayer, isActive, isWinner
                         }
                         {
                             isWinner ?
-                                <div>Win</div> :
+                                <div className="winner">Win!</div> :
                                 ''
                         }
                     </Card.Meta>

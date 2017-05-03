@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +14,20 @@ namespace Tek.Gomoku.Service.Services
         private readonly ISocketService _socket;
         private readonly IGameJudgementService _judgement;
         private readonly IAutoPlayService _autoPlayService;
+        private readonly IConfigurationRoot _config;
 
         public GameService(
             GameContext context,
             ISocketService socket,
             IGameJudgementService judgement,
-            IAutoPlayService autoPlayService)
+            IAutoPlayService autoPlayService,
+            IConfigurationRoot config)
         {
             _context = context;
             _socket = socket;
             _judgement = judgement;
             _autoPlayService = autoPlayService;
+            _config = config;
         }
 
         private async Task<Game> GetGame()
@@ -65,11 +69,21 @@ namespace Tek.Gomoku.Service.Services
 
         private async Task AutoPlay()
         {
-            var game = GetGame();
+            var game = await GetGame();
 
             var autoMove = _autoPlayService.MakeDecision(_context.GameMove.ToArray());
             _context.GameMove.Add(autoMove);
-            _context.SaveChanges();
+
+            if (await Judge(autoMove))
+            {
+                game.Status = GameStatus.WhiteSideWon;
+            }
+            else
+            {
+                game.NextPlayer = game.BlackSidePlayer;
+            }
+
+            await _context.SaveChangesAsync();
 
             var message = new WebSocketMessage()
             {
@@ -129,7 +143,10 @@ namespace Tek.Gomoku.Service.Services
         {
             await ManualPlay(userName, move);
 
-            await AutoPlay();
+            if (_config["AutoPlay:Mode"] == "true")
+            {
+                await AutoPlay();
+            }
         }
 
         public async Task SignIn(string userName)

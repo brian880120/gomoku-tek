@@ -8,16 +8,23 @@ namespace Tek.Gomoku.Service.Services
 {
     public class AutoPlayService : IAutoPlayService
     {
+        private readonly IGameMoveDataAdapter _adapter;
+
+        public AutoPlayService(IGameMoveDataAdapter adapter)
+        {
+            _adapter = adapter;
+        }
+
         public GameMove MakeDecision(GameMove[] gameMoves)
         {
             // 1. 1d => 2d
-            AutoPlayMove[][] board = Adapter.GameMovesToAutoPlayMoves(gameMoves);
+            AutoPlayMove[][] board = _adapter.GameMovesToAutoPlayMoves(gameMoves);
 
             // 2. call your alpha-beta algorithm
             AutoPlayMove decision = makeDecision(board);
 
             // 3. AutoPlayMove => GameMove
-            GameMove output = Adapter.AutoPlayMovesToGameMove(decision);
+            GameMove output = _adapter.AutoPlayMovesToGameMove(decision);
 
             // 4. return
             return output; // todo
