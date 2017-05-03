@@ -70,6 +70,7 @@ namespace Tek.Gomoku.Service.Services
         private async Task AutoPlay()
         {
             var game = await GetGame();
+            if (game.Status != GameStatus.Playing) return;
 
             var autoMove = _autoPlayService.MakeDecision(_context.GameMove.ToArray());
             _context.GameMove.Add(autoMove);
