@@ -4,6 +4,10 @@
     max-width: 800px;
 }
 
+select.ui.dropdown {
+    height: 47px;
+}
+
 .game-body>div>div {
     display: flex;
 }
@@ -38,39 +42,13 @@
     color: #f0ffff;
 }
 
- .require-login {
-    margin-left: 40px;
-    margin-bottom: 20px;
- }
-
 .login-area {
     margin-left: 72px;
     display: flex;
 }
 
 .login-area>div:nth-child(1) {
-    margin-right: 123px;
-}
-
-.login-area>div:nth-child(2) {
-    margin-right: 5px;
-}
-
-.login-area>div:nth-child(3) {
-    margin-right: 0;
-}
-
-.login-input>div>input {
-    height: 46px;
-}
-
-.login-button>button {
-    width: 100px;
-    height: 46px;
-}
-
-.active-player {
-    color: red;
+    margin-right: 33px;
 }
 
 .card-panel {
@@ -173,10 +151,6 @@
     width: 60%;
     display: flex;
     margin-left: 40px;
-}
-
-.column {
-
 }
 
 .unit {

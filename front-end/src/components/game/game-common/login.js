@@ -60,22 +60,21 @@ class Login extends React.Component {
                                 </Message.Header>
                             </Message>
                         </div>
-                        <div className="login-input">
-                            <Input focus
+                        <div className="ui action input">
+                            <Input action
+                                type="text"
                                 name="username"
                                 placeholder="Enter a user Id"
                                 onChange={this.updateUserState}
                                 value={this.state.user.username} />
-                        </div>
-                        <div className="login-button">
-                            <Button primary onClick={this.onLogin}>Login</Button>
-                        </div>
-                        <div>
                             <SelectInput name="gamemode"
                                 defaultOption={defaultOption}
                                 options={options}
                                 value={this.state.user.gamemode}
                                 onChange={this.updateUserState} />
+                            <Button className="ui primary button"
+                                onClick={this.onLogin}>Login
+                            </Button>
                         </div>
                     </div>
                 }
