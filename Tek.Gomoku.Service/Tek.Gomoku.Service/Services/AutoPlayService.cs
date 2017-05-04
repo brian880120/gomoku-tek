@@ -77,7 +77,7 @@ namespace Tek.Gomoku.Service.Services
         {
             double score;
             double bestscore = -1000;
-            int depth = 4;
+            int depth = 1;
 
             int bestRow = 0; int bestCol = 0;
             // 
@@ -107,7 +107,9 @@ namespace Tek.Gomoku.Service.Services
                     }
                 }
             }
-            return new AutoPlayMove(bestRow, bestCol, "white");
+            AutoPlayMove m = new AutoPlayMove(bestRow, bestCol, "white");
+            Console.WriteLine("suggestion: " + m.RowIndex + "          " + m.ColIndex + "           " + m.Color);
+            return m;
 
         }
 
@@ -137,26 +139,131 @@ namespace Tek.Gomoku.Service.Services
                         if (board_state[i][j].Color.Equals("white"))
                         {
                             AutoPlayMove mWhite = new AutoPlayMove(i, j, "white");
-                            whiteScore += CheckHorizontal(mWhite, board_state);
-                            whiteScore += CheckVertical(mWhite, board_state);
-                            whiteScore += CheckForwardSlash(mWhite, board_state);
-                            whiteScore += CheckBackwardSlash(mWhite, board_state);
+                            int[] resultH = CheckHorizontal(mWhite, board_state);
+                            int[] resultV = CheckVertical(mWhite, board_state);
+                            int[] resultF = CheckForwardSlash(mWhite, board_state);
+                            int[] resultB = CheckBackwardSlash(mWhite, board_state);
+
+                            int[][] allResult = new int[4][];
+                            for (int k = 0; k < 4; k++)
+                                allResult[k] = new int[2];
+
+                            allResult[0] = resultH;
+                            allResult[1] = resultV;
+                            allResult[2] = resultF;
+                            allResult[3] = resultB;
+
+                            for (int m = 0; m < 4; m++)
+                            {
+                                if (allResult[m][1] == 0)
+                                {
+                                    if (allResult[m][0] == 1)
+                                        whiteScore += 1;
+                                    else if (allResult[m][0] == 2)
+                                        whiteScore += 5;
+                                    else if (allResult[m][0] == 3)
+                                        whiteScore += 9;
+                                    else if (allResult[m][0] == 4)
+                                        whiteScore += 50;
+                                }
+                                else if (allResult[m][1] == 1)
+                                {
+                                    if (allResult[m][0] == 1)
+                                        whiteScore += 1;
+                                    else if (allResult[m][0] == 2)
+                                        whiteScore += 3;
+                                    else if (allResult[m][0] == 3)
+                                        whiteScore += 6;
+                                    else if (allResult[m][0] == 4)
+                                        whiteScore += 20;
+                                }
+                                else
+                                {
+                                    whiteScore -= 3;
+                                    blackScore += 3;
+                                }
+                            }
+
+                            /*if (resultH[1] == 0)
+                            {
+                                if (resultH[0] <= 2)
+                                    whiteScore += 1;
+                                else if (resultH[0] == 3)
+                                    whiteScore += 9;
+                                else if (resultH[0] == 4)
+                                    whiteScore += 50;
+                            }
+                            else if(resultH[1] == 1)
+                            {
+                                if (resultH[0] <= 2)
+                                    whiteScore += 1;
+                                else if (resultH[0] == 3)
+                                    whiteScore += 6;
+                                else if (resultH[0] == 4)
+                                    whiteScore += 20;
+                            }
+                            else
+                            {
+                                whiteScore++;
+                            }*/
                         }
                         else
                         {
                             AutoPlayMove mBlack = new AutoPlayMove(i, j, "black");
-                            blackScore += CheckHorizontal(mBlack, board_state);
-                            blackScore += CheckVertical(mBlack, board_state);
-                            blackScore += CheckForwardSlash(mBlack, board_state);
-                            blackScore += CheckBackwardSlash(mBlack, board_state);
+                            int[] resultH = CheckHorizontal(mBlack, board_state);
+                            int[] resultV = CheckVertical(mBlack, board_state);
+                            int[] resultF = CheckForwardSlash(mBlack, board_state);
+                            int[] resultB = CheckBackwardSlash(mBlack, board_state);
+
+                            int[][] allResult = new int[4][];
+                            for (int k = 0; k < 4; k++)
+                                allResult[k] = new int[2];
+
+                            allResult[0] = resultH;
+                            allResult[1] = resultV;
+                            allResult[2] = resultF;
+                            allResult[3] = resultB;
+
+                            for (int m = 0; m < 4; m++)
+                            {
+                                if (allResult[m][1] == 0)
+                                {
+                                    if (allResult[m][0] == 1)
+                                        blackScore += 1;
+                                    else if (allResult[m][0] == 2)
+                                        blackScore += 5;
+                                    else if (allResult[m][0] == 3)
+                                        blackScore += 9;
+                                    else if (allResult[m][0] == 4)
+                                        blackScore += 50;
+                                }
+                                else if (allResult[m][1] == 1)
+                                {
+                                    if (allResult[m][0] == 1)
+                                        blackScore += 1;
+                                    else if (allResult[m][0] == 2)
+                                        blackScore += 3;
+                                    else if (allResult[m][0] == 3)
+                                        blackScore += 6;
+                                    else if (allResult[m][0] == 4)
+                                        blackScore += 20;
+                                }
+                                else
+                                {
+                                    blackScore -= 3;
+                                    whiteScore += 3;
+                                }
+                            }
+
                         }
 
+
                     }
-
-
                 }
             }
-            return whiteScore - blackScore;
+            //double Eval = whiteScore * (0.5 * whiteScore + 16) / 16 + blackScore + 3 * whiteScore + 2 * blackScore;
+            double Eval = whiteScore - blackScore;
+                return Eval;
 
         }
 
@@ -239,9 +346,10 @@ namespace Tek.Gomoku.Service.Services
 
         // helper for evaluation function
 
-        private int CheckHorizontal(AutoPlayMove AutoPlayMove, AutoPlayMove[][] occupiedPosition)
+        private int[] CheckHorizontal(AutoPlayMove AutoPlayMove, AutoPlayMove[][] occupiedPosition)
         {
-            int counter = 1;
+            int counter = 1;    
+            int enemyNum = 0;
 
             int col = AutoPlayMove.ColIndex; int row = AutoPlayMove.RowIndex; String color = AutoPlayMove.Color;
 
@@ -251,15 +359,17 @@ namespace Tek.Gomoku.Service.Services
                 if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionH)
                 {
                     //if (IsSame(row, i, color, occupiedPosition))
-                    counter++;
+                    counter ++;
                     temp.DirectionH = false;
                 }
-                else
+                else if (temp != null && temp.Color.CompareTo(color) != 0)
                 {
-                    if (temp != null)
-                        counter -= 2;
+                    //enemy = true;
+                    enemyNum ++;
                     break;
-                }
+                } 
+                else
+                    break;
             }
 
             for (int i = col - 1; i >= 1; i--)
@@ -268,23 +378,29 @@ namespace Tek.Gomoku.Service.Services
                 if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionH)
                 {
                     //if (IsSame(row, i, color, occupiedPosition))
-                    counter++;
+                    counter ++;
                     temp.DirectionH = false;
                 }
-                else
+                else if (temp != null && temp.Color.CompareTo(color) != 0)
                 {
-                    if (temp != null)
-                        counter -= 2;
+                    enemyNum ++;
                     break;
                 }
+                   
+                else
+                    break;
+                         
             }
+            int[] result = new int[2];
+            result[0] = counter;    result[1] = enemyNum;
 
-            return counter;
+            return result;
         }
 
-        private int CheckVertical(AutoPlayMove AutoPlayMove, AutoPlayMove[][] occupiedPosition)
+        private int[] CheckVertical(AutoPlayMove AutoPlayMove, AutoPlayMove[][] occupiedPosition)
         {
-            int counter = 1;
+            int counter = 1;    //Boolean enemy = false;  
+            int enemyNum = 0;
             int col = AutoPlayMove.ColIndex; int row = AutoPlayMove.RowIndex; String color = AutoPlayMove.Color;
 
             for (int i = row + 1; i <= 15; i++)
@@ -293,15 +409,17 @@ namespace Tek.Gomoku.Service.Services
                 if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionV)
                 {
                     //if (IsSame(i, col, color, occupiedPosition))
-                    counter++;
+                    counter ++;
                     temp.DirectionV = false;
                 }
-                else
+                else if (temp != null && temp.Color.CompareTo(color) != 0)
                 {
-                    if (temp != null)
-                        counter -= 2;
+                    //enemy = true;
+                    enemyNum++;
                     break;
                 }
+                else
+                    break;
             }
 
             for (int i = row - 1; i >= 1; i--)
@@ -310,23 +428,28 @@ namespace Tek.Gomoku.Service.Services
                 if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionV)
                 {
                     //if (IsSame(i, col, color, occupiedPosition))
-                    counter++;
+                    counter ++;
                     temp.DirectionV = false;
                 }
-                else
+
+                else if (temp != null && temp.Color.CompareTo(color) != 0)
                 {
-                    if (temp != null)
-                        counter -= 2;
+                    enemyNum++;
                     break;
                 }
+                else
+                    break;
             }
+            int[] result = new int[2];
+            result[0] = counter; result[1] = enemyNum;
 
-            return counter;
+            return result;
         }
 
-        private int CheckForwardSlash(AutoPlayMove AutoPlayMove, AutoPlayMove[][] occupiedPosition)
+        private int[] CheckForwardSlash(AutoPlayMove AutoPlayMove, AutoPlayMove[][] occupiedPosition)
         {
-            int counter = 1;
+            int counter = 1;    //Boolean enemy = false;
+            int enemyNum = 0;
             int col = AutoPlayMove.ColIndex; int row = AutoPlayMove.RowIndex; String color = AutoPlayMove.Color;
             int j = row + 1; int k = row - 1;
 
@@ -338,15 +461,17 @@ namespace Tek.Gomoku.Service.Services
                     if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionF)
                     {
                         //if (IsSame(j, i, color, occupiedPosition))
-                        counter++;
+                        counter ++;
                         temp.DirectionF = false;
                     }
-                    else
+                    else if (temp != null && temp.Color.CompareTo(color) != 0)
                     {
-                        if (temp != null)
-                            counter -= 2;
+                        //enemy = true;
+                        enemyNum ++;
                         break;
                     }
+                    else
+                        break;
                 }
                 else
                     break;
@@ -361,28 +486,31 @@ namespace Tek.Gomoku.Service.Services
                     if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionF)
                     {
                         //if (IsSame(k, i, color, occupiedPosition))
-                        counter++;
+                        counter ++;
                         temp.DirectionF = false;
                     }
-                    else
+                    else if (temp != null && temp.Color.CompareTo(color) != 0)
                     {
-                        if (temp != null)
-                            counter -= 2;
+                        enemyNum++;
                         break;
                     }
+                    else
+                        break;
                 }
                 else
                     break;
                 k--;
             }
+            int[] result = new int[2];
+            result[0] = counter; result[1] = enemyNum;
 
-
-            return counter;
+            return result;
         }
 
-        private int CheckBackwardSlash(AutoPlayMove AutoPlayMove, AutoPlayMove[][] occupiedPosition)
+        private int[] CheckBackwardSlash(AutoPlayMove AutoPlayMove, AutoPlayMove[][] occupiedPosition)
         {
-            int counter = 1;
+            int counter = 1;    //Boolean enemy = false;
+            int enemyNum = 0;
             int col = AutoPlayMove.ColIndex; int row = AutoPlayMove.RowIndex; String color = AutoPlayMove.Color;
             int j = row - 1; int k = row + 1;
 
@@ -394,15 +522,18 @@ namespace Tek.Gomoku.Service.Services
                     if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionB)
                     {
                         //if (IsSame(j, i, color, occupiedPosition))
-                        counter++;
+                        counter ++;
                         temp.DirectionB = false;
                     }
-                    else
+                    else if (temp != null && temp.Color.CompareTo(color) != 0)
                     {
-                        if (temp != null)
-                            counter -= 2;
+
+                        //enemy = true;
+                        enemyNum ++;
                         break;
                     }
+                    else
+                        break;
                 }
                 else
                     break;
@@ -417,22 +548,26 @@ namespace Tek.Gomoku.Service.Services
                     if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionB)
                     {
                         //if (IsSame(k, i, color, occupiedPosition))
-                        counter++;
+                        counter ++;
                         temp.DirectionB = false;
                     }
-                    else
+                    else if (temp != null && temp.Color.CompareTo(color) != 0)
                     {
-                        if (temp != null)
-                            counter -= 2;
+                        //counter = 1;
+                        enemyNum++;
                         break;
                     }
+                    else
+                        break;
                 }
                 else
                     break;
                 k++;
             }
+            int[] result = new int[2];
+            result[0] = counter; result[1] = enemyNum;
 
-            return counter;
+            return result;
         }
     }
 }
