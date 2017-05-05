@@ -8,13 +8,6 @@ function getGameStatusSuccess(gameStatusData) {
     };
 }
 
-function updateGameStatusSuccess(gameStatusData) {
-    return {
-        type: types.UPDATE_GAME_STATUS,
-        gameStatusData: gameStatusData
-    };
-}
-
 function deleteGameStatusSuccess() {
     return {
         type: types.DELETE_GAME_STATUS,
