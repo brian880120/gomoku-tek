@@ -8,5 +8,7 @@ namespace Tek.Gomoku.Service.Models
     public class CredentialModel
     {
         public string UserName { get; set; }
+
+        public string GameMode { get; set; }
     }
 }
