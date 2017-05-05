@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import * as _ from 'lodash';
 
 class GameUnit extends React.Component {
@@ -54,13 +55,10 @@ class GameUnit extends React.Component {
         if (columnIndex === 17 && rowIndex === 14) {
             cellClass = 'cell last-column-cells last-row-cells';
         }
-        let columnStatusData = this.props.columnStatusData;
-        let targetUnit = _.find(columnStatusData, function(data) {
-            return data.rowIndex == rowIndex && data.columnIndex == columnIndex;
-        });
+        let unitStatus = this.props.unitStatus;
         let pieceClass = '';
-        if (targetUnit) {
-            pieceClass = 'piece ' + targetUnit.colorInString;
+        if (unitStatus.color) {
+            pieceClass = 'piece ' + unitStatus.color;
         }
 
         return (
@@ -83,7 +81,7 @@ class GameUnit extends React.Component {
                         <div className="piece-hide"></div>
                 }
                 {
-                    targetUnit ?
+                    unitStatus ?
                         <div className={pieceClass}></div> :
                         <div className="piece-hide"></div>
                 }
@@ -95,9 +93,15 @@ class GameUnit extends React.Component {
 GameUnit.propTypes = {
     rowIndex: PropTypes.number.isRequired,
     columnIndex: PropTypes.number.isRequired,
-    columnStatusData: PropTypes.array.isRequired,
+    unitStatus: PropTypes.object.isRequired,
     handleUnitClick: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired
 };
 
-export default GameUnit;
+function mapStateToProps(state, ownProps) {
+    return {
+        unitStatus: state.gameStatus[ownProps.columnIndex][ownProps.rowIndex]
+    };
+}
+
+export default connect(mapStateToProps)(GameUnit);

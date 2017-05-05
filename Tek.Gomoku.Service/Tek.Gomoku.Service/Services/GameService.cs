@@ -150,39 +150,6 @@ namespace Tek.Gomoku.Service.Services
             }
         }
 
-        public async Task SignIn(string userName)
-        {
-            var game = await GetGame();
-            if (game.Status != GameStatus.Initial)
-            {
-                throw new InvalidOperationException("Game has started!");
-            }
-
-            if (string.IsNullOrWhiteSpace(game.BlackSidePlayer))
-            {
-                game.BlackSidePlayer = userName;
-            }
-            else
-            {
-                game.WhiteSidePlayer = userName;
-            }
-
-            if (!string.IsNullOrWhiteSpace(game.BlackSidePlayer) && !string.IsNullOrWhiteSpace(game.WhiteSidePlayer))
-            {
-                game.Status = GameStatus.Playing;
-                game.NextPlayer = game.BlackSidePlayer;
-            }
-
-            await _context.SaveChangesAsync();
-
-            var webSocketMessage = new WebSocketMessage()
-            {
-                Type = "Game",
-                Payload = game
-            };
-            await _socket.BroadcastMessage(webSocketMessage);
-        }
-
         public async Task SignOut(string userName)
         {
             var game = await GetGame();
@@ -204,6 +171,39 @@ namespace Tek.Gomoku.Service.Services
             game.Status = GameStatus.Initial;
 
             await _context.GameMove.ForEachAsync(p => _context.GameMove.Remove(p));
+
+            await _context.SaveChangesAsync();
+
+            var webSocketMessage = new WebSocketMessage()
+            {
+                Type = "Game",
+                Payload = game
+            };
+            await _socket.BroadcastMessage(webSocketMessage);
+        }
+
+        public async Task SignIn(string userName, bool isAutoPlay)
+        {
+            var game = await GetGame();
+            if (game.Status != GameStatus.Initial)
+            {
+                throw new InvalidOperationException("Game has started!");
+            }
+
+            if (string.IsNullOrWhiteSpace(game.BlackSidePlayer))
+            {
+                game.BlackSidePlayer = userName;
+            }
+            else
+            {
+                game.WhiteSidePlayer = userName;
+            }
+
+            if (!string.IsNullOrWhiteSpace(game.BlackSidePlayer) && !string.IsNullOrWhiteSpace(game.WhiteSidePlayer))
+            {
+                game.Status = GameStatus.Playing;
+                game.NextPlayer = game.BlackSidePlayer;
+            }
 
             await _context.SaveChangesAsync();
 

@@ -23,7 +23,9 @@ class GamePage extends React.Component {
                 Authorization: 'bearer ' + this.props.auth.id_token
             }
         };
-        this.props.actions.getGameStatus(config);
+        if (!this.props.auth) {
+            this.props.actions.getGameStatus(config);
+        }
     }
 
     handleUnitClick(columnIndex, rowIndex, event) {
@@ -44,11 +46,7 @@ class GamePage extends React.Component {
 
     render() {
         const layoutData = getInitialGameStatus();
-        let statusData = this.props.statusData;
         let isAuthenticated = this.props.auth.isAuthenticated;
-        if (!isAuthenticated) {
-            statusData = [];
-        }
         return (
             <div className="container-fluid">
                 {
@@ -62,7 +60,6 @@ class GamePage extends React.Component {
                             <GameColumn key={layoutData.indexOf(columnData)}
                                     columnIndex={layoutData.indexOf(columnData)}
                                     columnData={columnData}
-                                    statusData={statusData}
                                     handleUnitClick={this.handleUnitClick}
                                     isAuthenticated={this.props.auth.isAuthenticated} />
                         )}
@@ -74,14 +71,12 @@ class GamePage extends React.Component {
 }
 
 GamePage.propTypes = {
-    statusData: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
     return {
-        statusData: state.gameStatus,
         auth: state.auth
     };
 }

@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import axios from 'axios-es6';
+import { getInitialGameStatus } from '../api/apiConfig';
 
 function getGameStatusSuccess(gameStatusData) {
     return {
@@ -11,7 +12,7 @@ function getGameStatusSuccess(gameStatusData) {
 function deleteGameStatusSuccess() {
     return {
         type: types.DELETE_GAME_STATUS,
-        gameStatusData: []
+        gameStatusData: getInitialGameStatus()
     };
 }
 
@@ -45,6 +46,6 @@ export function deleteGameStatus(config) {
 export function cleanGameStatus() {
     return {
         type: types.CLEAN_GAME_STATUS,
-        gameStatusData: []
+        gameStatusData: getInitialGameStatus()
     };
 }

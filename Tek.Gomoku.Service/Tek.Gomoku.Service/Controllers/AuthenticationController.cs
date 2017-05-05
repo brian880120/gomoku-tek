@@ -54,11 +54,11 @@ namespace Tek.Gomoku.Service.Controllers
 
                 var token = await _jwtService.CreateToken(model.UserName);
 
-                await _gameSerivce.SignIn(model.UserName);
+                await _gameSerivce.SignIn(model.UserName, model.GameMode == "auto");
 
                 if (_config["AutoPlay:Mode"] == "true")
                 {
-                    await _gameSerivce.SignIn("Machine");
+                    await _gameSerivce.SignIn("Machine", true);
                 }
 
                 return Ok(new

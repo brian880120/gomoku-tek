@@ -5,11 +5,7 @@ import * as _ from 'lodash';
 
 class GameColumn extends React.Component {
     render() {
-        let statusData = this.props.statusData;
         let columnIndex = this.props.columnIndex;
-        let columnStatusData = _.filter(statusData, function(data) {
-            return columnIndex === data.columnIndex;
-        });
         let columnData = this.props.columnData;
         return (
             <div className="column">
@@ -17,7 +13,6 @@ class GameColumn extends React.Component {
                     <GameUnit key={columnData.indexOf(data)}
                             rowIndex={columnData.indexOf(data)}
                             columnIndex={columnIndex}
-                            columnStatusData={columnStatusData}
                             handleUnitClick={this.props.handleUnitClick}
                             isAuthenticated={this.props.isAuthenticated} />
                 )}
@@ -29,7 +24,6 @@ class GameColumn extends React.Component {
 GameColumn.propTypes = {
     columnIndex: PropTypes.number.isRequired,
     columnData: PropTypes.array.isRequired,
-    statusData: PropTypes.array.isRequired,
     handleUnitClick: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired
 };
