@@ -55,7 +55,8 @@ export function loginUser(creds) {
         method: 'post',
         url: BASE_URL + 'authentication/token',
         data: {
-            userName: creds.username
+            userName: creds.username,
+            gameMode: creds.gamemode
         },
         headers: {
             'Content-Type': 'application/json'
