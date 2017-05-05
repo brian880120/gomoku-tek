@@ -15,6 +15,7 @@ class PlayerPanel extends React.Component {
         function displayPlayer(player) {
             let isCurrentPlayer = false;
             if (currentUser === player.name) {
+                player.name = 'You';
                 isCurrentPlayer = true;
             }
             if (player.name) {
