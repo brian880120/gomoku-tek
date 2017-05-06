@@ -4,10 +4,7 @@ import initialState from './initialState';
 function gamePlayerReducer(state = initialState.players, action) {
     switch(action.type) {
         case types.GET_CURRENT_PLAYERS:
-            return action.gamePlayers;
-
-        case types.GET_ACTIVE_PLAYER:
-            return action.activePlayer;
+            return Object.assign([], action.gamePlayers);
 
         default:
             return state;

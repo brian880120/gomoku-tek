@@ -26,7 +26,7 @@ class Login extends React.Component {
         this.state = {
             user: {
                 username: '',
-                gamemode: ''
+                gamemode: 'auto'
             }
         };
         this.onLogin = this.onLogin.bind(this);

@@ -13,7 +13,7 @@ function authReducer(state = initialState.auth, action) {
             return Object.assign({}, state, {
                 isFetching: true,
                 isAuthenticated: false,
-                user: action.creds
+                user: action.creds.username
             });
 
         case types.LOGIN_SUCCESS:

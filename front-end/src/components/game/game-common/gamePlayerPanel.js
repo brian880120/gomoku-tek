@@ -10,21 +10,22 @@ class PlayerPanel extends React.Component {
     render() {
         let currentUser = null;
         if (this.props.auth.user) {
-            currentUser = this.props.auth.user.username;
+            currentUser = this.props.auth.user;
         }
         function displayPlayer(player) {
             let isCurrentPlayer = false;
+            let copyPlayer = Object.assign({}, player);
             if (currentUser === player.name) {
-                player.name = 'You';
+                copyPlayer.name = 'You';
                 isCurrentPlayer = true;
             }
             if (player.name) {
                 return (
-                    <PlayerCard key={player.name}
-                            playerName={player.name}
-                            isActive={player.isActive}
-                            isWinner={player.isWinner}
-                            playerSide={player.color}
+                    <PlayerCard key={copyPlayer.name}
+                            playerName={copyPlayer.name}
+                            isActive={copyPlayer.isActive}
+                            isWinner={copyPlayer.isWinner}
+                            playerSide={copyPlayer.color}
                             isCurrentPlayer={isCurrentPlayer} />
                 );
             }
