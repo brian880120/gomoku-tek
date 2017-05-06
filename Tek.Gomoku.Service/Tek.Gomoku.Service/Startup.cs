@@ -37,7 +37,7 @@ namespace Tek.Gomoku.Service
             services.AddSingleton(Configuration);
             services.AddTransient(typeof(IUserInfoService), typeof(UserInfoService));
             services.AddTransient(typeof(IJudgementService), typeof(JudgementService));
-            services.AddTransient(typeof(IGameService), typeof(GameService));
+            services.AddSingleton(typeof(IGameService), typeof(GameService));
             services.AddTransient(typeof(IJWTService), typeof(JWTService));
             services.AddSingleton(typeof(IEngine), typeof(ResetableEngine));
             services.AddTransient(typeof(IAlphaBetaAlgorithm), typeof(AlphaBetaAlgorithm));

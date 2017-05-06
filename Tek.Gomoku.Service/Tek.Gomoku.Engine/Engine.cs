@@ -364,7 +364,7 @@ namespace Tek.Gomoku.Engine
                             {
                                 sum[k] += m;
                                 pr.pv += m;
-                                //oprav prioritu v jednom smìru
+                                //Repairs priority in one direction
                                 ind = 0;
                                 if (pr.pv >= H21)
                                 {

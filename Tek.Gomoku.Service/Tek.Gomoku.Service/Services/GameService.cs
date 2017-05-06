@@ -156,16 +156,37 @@ namespace Tek.Gomoku.Service.Services
             await _socket.BroadcastMessage(message);
         }
 
+        private bool _busy;
+
         public async Task Move(string userName, GameMove move)
         {
-            var game = await GetGame();
-            var manToMachine = game.ManToMachine;
-
-            await ManualPlay(userName, move);
-
-            if (manToMachine)
+            if (_busy)
             {
-                await AutoPlay();
+                throw new InvalidOperationException("Server is busy processing a move!");
+            }
+
+            try
+            {
+                _busy = true;
+
+                if (_context.GameMove.Any(p => p.RowIndex == move.RowIndex && p.ColumnIndex == move.ColumnIndex))
+                {
+                    throw new InvalidOperationException("Invalid move!");
+                }
+
+                var game = await GetGame();
+                var manToMachine = game.ManToMachine;
+
+                await ManualPlay(userName, move);
+
+                if (manToMachine)
+                {
+                    await AutoPlay();
+                }
+            }
+            finally
+            {
+                _busy = false;
             }
         }
 
