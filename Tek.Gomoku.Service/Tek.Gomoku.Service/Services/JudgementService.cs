@@ -6,7 +6,7 @@ using Tek.Gomoku.Service.Models;
 
 namespace Tek.Gomoku.Service.Services
 {
-    public class GameJudgementService : IGameJudgementService
+    public class JudgementService : IJudgementService
     {
         public bool Check(GameMove gameMove, GameMove[] occupiedPisition)
         {

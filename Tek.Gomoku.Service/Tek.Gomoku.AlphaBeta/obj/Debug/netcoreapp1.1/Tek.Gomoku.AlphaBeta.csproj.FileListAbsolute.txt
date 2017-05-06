@@ -1,0 +1,7 @@
+C:\R&D\Projects\gomoku-tek\Tek.Gomoku.Service\Tek.Gomoku.AlphaBeta\bin\Debug\netcoreapp1.1\Tek.Gomoku.AlphaBeta.deps.json
+C:\R&D\Projects\gomoku-tek\Tek.Gomoku.Service\Tek.Gomoku.AlphaBeta\bin\Debug\netcoreapp1.1\Tek.Gomoku.AlphaBeta.dll
+C:\R&D\Projects\gomoku-tek\Tek.Gomoku.Service\Tek.Gomoku.AlphaBeta\bin\Debug\netcoreapp1.1\Tek.Gomoku.AlphaBeta.pdb
+C:\R&D\Projects\gomoku-tek\Tek.Gomoku.Service\Tek.Gomoku.AlphaBeta\obj\Debug\netcoreapp1.1\Tek.Gomoku.AlphaBeta.csprojResolveAssemblyReference.cache
+C:\R&D\Projects\gomoku-tek\Tek.Gomoku.Service\Tek.Gomoku.AlphaBeta\obj\Debug\netcoreapp1.1\Tek.Gomoku.AlphaBeta.AssemblyInfo.cs
+C:\R&D\Projects\gomoku-tek\Tek.Gomoku.Service\Tek.Gomoku.AlphaBeta\obj\Debug\netcoreapp1.1\Tek.Gomoku.AlphaBeta.dll
+C:\R&D\Projects\gomoku-tek\Tek.Gomoku.Service\Tek.Gomoku.AlphaBeta\obj\Debug\netcoreapp1.1\Tek.Gomoku.AlphaBeta.pdb

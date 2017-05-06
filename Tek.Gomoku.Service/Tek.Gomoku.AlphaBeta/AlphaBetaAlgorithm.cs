@@ -2,41 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tek.Gomoku.Service.Models;
 
-namespace Tek.Gomoku.Service.Services
+namespace Tek.Gomoku.AlphaBeta
 {
-    public class AutoPlayService : IAutoPlayService
+    public class AlphaBetaAlgorithm : IAlphaBetaAlgorithm
     {
-        private readonly IGameMoveDataAdapter _adapter;
-
-        public AutoPlayService(IGameMoveDataAdapter adapter)
-        {
-            _adapter = adapter;
-        }
-
-        public GameMove MakeDecision(GameMove[] gameMoves)
-        {
-            // 1. 1d => 2d
-            AutoPlayMove[][] board = _adapter.GameMovesToAutoPlayMoves(gameMoves);
-
-            // 2. call your alpha-beta algorithm
-            AutoPlayMove decision = makeDecision(board);
-
-            // 3. AutoPlayMove => GameMove
-            GameMove output = _adapter.AutoPlayMovesToGameMove(decision);
-
-            // 4. return
-            return output; // todo
-        }
-
-        private AutoPlayMove[][] CloneBoard(AutoPlayMove[][] board_state)
+        private Move[][] CloneBoard(Move[][] board_state)
         {
 
-            AutoPlayMove[][] result = new AutoPlayMove[16][];
+            Move[][] result = new Move[16][];
             for (int k = 0; k < 16; k++)
             {
-                result[k] = new AutoPlayMove[19];
+                result[k] = new Move[19];
                 for (int m = 0; m < 19; m++)
                 {
                     result[k][m] = board_state[k][m];
@@ -47,7 +24,7 @@ namespace Tek.Gomoku.Service.Services
         }
 
         // can be improved if when do a AutoPlayMove, compare the AutoPlayMove index with min/max Row and min/max Col.
-        private int[] FindBoarder(AutoPlayMove[][] board_state)
+        private int[] FindBoarder(Move[][] board_state)
         {
             int maxCol = 0; int minCol = 100; int maxRow = 0; int minRow = 100;
 
@@ -73,7 +50,7 @@ namespace Tek.Gomoku.Service.Services
             return result;
         }
 
-        private AutoPlayMove makeDecision(AutoPlayMove[][] board_state)
+        public Move MakeDecision(Move[][] board_state)
         {
             double score;
             double bestscore = -1000;
@@ -89,12 +66,12 @@ namespace Tek.Gomoku.Service.Services
                 for (int j = minCol; j <= maxCol; j++)
                 {
                     // clone a temp board
-                    AutoPlayMove[][] cloned_board_state = CloneBoard(board_state);
+                    Move[][] cloned_board_state = CloneBoard(board_state);
 
 
                     if (board_state[i][j] == null)
                     {
-                        AutoPlayMove m1 = new AutoPlayMove(i - 1, j - 1, "white");
+                        Move m1 = new Move(i - 1, j - 1, "white");
                         cloned_board_state[i][j] = m1;
 
                         score = Alpha_beta(cloned_board_state, depth, -1000, 1000, "black", FindBoarder(cloned_board_state));
@@ -107,11 +84,11 @@ namespace Tek.Gomoku.Service.Services
                     }
                 }
             }
-            return new AutoPlayMove(bestRow, bestCol, "white");
+            return new Move(bestRow, bestCol, "white");
 
         }
 
-        private double Evaluation(AutoPlayMove[][] board_state)
+        private double Evaluation(Move[][] board_state)
         {
 
             // debugging ********************
@@ -136,7 +113,7 @@ namespace Tek.Gomoku.Service.Services
                     {
                         if (board_state[i][j].Color.Equals("white"))
                         {
-                            AutoPlayMove mWhite = new AutoPlayMove(i, j, "white");
+                            Move mWhite = new Move(i, j, "white");
                             whiteScore += CheckHorizontal(mWhite, board_state);
                             whiteScore += CheckVertical(mWhite, board_state);
                             whiteScore += CheckForwardSlash(mWhite, board_state);
@@ -144,7 +121,7 @@ namespace Tek.Gomoku.Service.Services
                         }
                         else
                         {
-                            AutoPlayMove mBlack = new AutoPlayMove(i, j, "black");
+                            Move mBlack = new Move(i, j, "black");
                             blackScore += CheckHorizontal(mBlack, board_state);
                             blackScore += CheckVertical(mBlack, board_state);
                             blackScore += CheckForwardSlash(mBlack, board_state);
@@ -160,7 +137,7 @@ namespace Tek.Gomoku.Service.Services
 
         }
 
-        private double Alpha_beta(AutoPlayMove[][] board_state, int depth, double a, double b, String color, int[] boarder)
+        private double Alpha_beta(Move[][] board_state, int depth, double a, double b, String color, int[] boarder)
         {
             int minRow = boarder[0]; int maxRow = boarder[1]; int minCol = boarder[2]; int maxCol = boarder[3];
             Boolean AutoPlayMoveLeft = false;
@@ -194,9 +171,9 @@ namespace Tek.Gomoku.Service.Services
                         {
 
                             // clone 2D array
-                            AutoPlayMove[][] cloned_board_state2 = CloneBoard(board_state);
+                            Move[][] cloned_board_state2 = CloneBoard(board_state);
 
-                            cloned_board_state2[i][j] = new AutoPlayMove(i - 1, j - 1, "white");
+                            cloned_board_state2[i][j] = new Move(i - 1, j - 1, "white");
 
                             temp_score1 = Alpha_beta(cloned_board_state2, depth - 1, a, b, "black", FindBoarder(cloned_board_state2));
                             if (temp_score1 >= max)
@@ -220,9 +197,9 @@ namespace Tek.Gomoku.Service.Services
                         {
                             // clone board
                             //AutoPlayMove[][] cloned_board_state2 = CloneBoard(board_state);
-                            AutoPlayMove[][] cloned_board_state2 = CloneBoard(board_state);
+                            Move[][] cloned_board_state2 = CloneBoard(board_state);
 
-                            cloned_board_state2[i][j] = new AutoPlayMove(i - 1, j - 1, "black");
+                            cloned_board_state2[i][j] = new Move(i - 1, j - 1, "black");
 
                             temp_score2 = Alpha_beta(cloned_board_state2, depth - 1, a, b, "white", FindBoarder(cloned_board_state2));
                             if (temp_score2 >= min)
@@ -239,7 +216,7 @@ namespace Tek.Gomoku.Service.Services
 
         // helper for evaluation function
 
-        private int CheckHorizontal(AutoPlayMove AutoPlayMove, AutoPlayMove[][] occupiedPosition)
+        private int CheckHorizontal(Move AutoPlayMove, Move[][] occupiedPosition)
         {
             int counter = 1;
 
@@ -247,7 +224,7 @@ namespace Tek.Gomoku.Service.Services
 
             for (int i = col + 1; i <= 18; i++)
             {
-                AutoPlayMove temp = occupiedPosition[row][i];
+                Move temp = occupiedPosition[row][i];
                 if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionH)
                 {
                     //if (IsSame(row, i, color, occupiedPosition))
@@ -264,7 +241,7 @@ namespace Tek.Gomoku.Service.Services
 
             for (int i = col - 1; i >= 1; i--)
             {
-                AutoPlayMove temp = occupiedPosition[row][i];
+                Move temp = occupiedPosition[row][i];
                 if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionH)
                 {
                     //if (IsSame(row, i, color, occupiedPosition))
@@ -282,14 +259,14 @@ namespace Tek.Gomoku.Service.Services
             return counter;
         }
 
-        private int CheckVertical(AutoPlayMove AutoPlayMove, AutoPlayMove[][] occupiedPosition)
+        private int CheckVertical(Move AutoPlayMove, Move[][] occupiedPosition)
         {
             int counter = 1;
             int col = AutoPlayMove.ColIndex; int row = AutoPlayMove.RowIndex; String color = AutoPlayMove.Color;
 
             for (int i = row + 1; i <= 15; i++)
             {
-                AutoPlayMove temp = occupiedPosition[i][col];
+                Move temp = occupiedPosition[i][col];
                 if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionV)
                 {
                     //if (IsSame(i, col, color, occupiedPosition))
@@ -306,7 +283,7 @@ namespace Tek.Gomoku.Service.Services
 
             for (int i = row - 1; i >= 1; i--)
             {
-                AutoPlayMove temp = occupiedPosition[i][col];
+                Move temp = occupiedPosition[i][col];
                 if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionV)
                 {
                     //if (IsSame(i, col, color, occupiedPosition))
@@ -324,7 +301,7 @@ namespace Tek.Gomoku.Service.Services
             return counter;
         }
 
-        private int CheckForwardSlash(AutoPlayMove AutoPlayMove, AutoPlayMove[][] occupiedPosition)
+        private int CheckForwardSlash(Move AutoPlayMove, Move[][] occupiedPosition)
         {
             int counter = 1;
             int col = AutoPlayMove.ColIndex; int row = AutoPlayMove.RowIndex; String color = AutoPlayMove.Color;
@@ -334,7 +311,7 @@ namespace Tek.Gomoku.Service.Services
             {
                 if (j <= 15)
                 {
-                    AutoPlayMove temp = occupiedPosition[j][i];
+                    Move temp = occupiedPosition[j][i];
                     if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionF)
                     {
                         //if (IsSame(j, i, color, occupiedPosition))
@@ -357,7 +334,7 @@ namespace Tek.Gomoku.Service.Services
             {
                 if (k >= 1)
                 {
-                    AutoPlayMove temp = occupiedPosition[k][i];
+                    Move temp = occupiedPosition[k][i];
                     if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionF)
                     {
                         //if (IsSame(k, i, color, occupiedPosition))
@@ -380,7 +357,7 @@ namespace Tek.Gomoku.Service.Services
             return counter;
         }
 
-        private int CheckBackwardSlash(AutoPlayMove AutoPlayMove, AutoPlayMove[][] occupiedPosition)
+        private int CheckBackwardSlash(Move AutoPlayMove, Move[][] occupiedPosition)
         {
             int counter = 1;
             int col = AutoPlayMove.ColIndex; int row = AutoPlayMove.RowIndex; String color = AutoPlayMove.Color;
@@ -390,7 +367,7 @@ namespace Tek.Gomoku.Service.Services
             {
                 if (j >= 1)
                 {
-                    AutoPlayMove temp = occupiedPosition[j][i];
+                    Move temp = occupiedPosition[j][i];
                     if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionB)
                     {
                         //if (IsSame(j, i, color, occupiedPosition))
@@ -413,7 +390,7 @@ namespace Tek.Gomoku.Service.Services
             {
                 if (k <= 15)
                 {
-                    AutoPlayMove temp = occupiedPosition[k][i];
+                    Move temp = occupiedPosition[k][i];
                     if (temp != null && temp.Color.CompareTo(color) == 0 && temp.DirectionB)
                     {
                         //if (IsSame(k, i, color, occupiedPosition))

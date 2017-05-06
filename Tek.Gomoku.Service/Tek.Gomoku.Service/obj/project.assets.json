@@ -4331,6 +4331,20 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
+      },
+      "Tek.Gomoku.AlphaBeta/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v1.1",
+        "dependencies": {
+          "Microsoft.NETCore.App": "1.1.1"
+        }
+      },
+      "Tek.Gomoku.Engine/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v1.1",
+        "dependencies": {
+          "Microsoft.NETCore.App": "1.1.1"
+        }
       }
     }
   },
@@ -11089,6 +11103,16 @@
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._"
       ]
+    },
+    "Tek.Gomoku.AlphaBeta/1.0.0": {
+      "type": "project",
+      "path": "../Tek.Gomoku.AlphaBeta/Tek.Gomoku.AlphaBeta.csproj",
+      "msbuildProject": "../Tek.Gomoku.AlphaBeta/Tek.Gomoku.AlphaBeta.csproj"
+    },
+    "Tek.Gomoku.Engine/1.0.0": {
+      "type": "project",
+      "path": "../Tek.Gomoku.Engine/Tek.Gomoku.Engine.csproj",
+      "msbuildProject": "../Tek.Gomoku.Engine/Tek.Gomoku.Engine.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -11108,7 +11132,9 @@
       "Microsoft.NETCore.App >= 1.1.1",
       "Microsoft.VisualStudio.Web.BrowserLink >= 1.1.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 1.1.0",
-      "System.IdentityModel.Tokens.Jwt >= 5.1.2"
+      "System.IdentityModel.Tokens.Jwt >= 5.1.2",
+      "Tek.Gomoku.AlphaBeta >= 1.0.0",
+      "Tek.Gomoku.Engine >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -11127,7 +11153,14 @@
       ],
       "frameworks": {
         "netcoreapp1.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\R&D\\Projects\\gomoku-tek\\Tek.Gomoku.Service\\Tek.Gomoku.Engine\\Tek.Gomoku.Engine.csproj": {
+              "projectPath": "C:\\R&D\\Projects\\gomoku-tek\\Tek.Gomoku.Service\\Tek.Gomoku.Engine\\Tek.Gomoku.Engine.csproj"
+            },
+            "C:\\R&D\\Projects\\gomoku-tek\\Tek.Gomoku.Service\\Tek.Gomoku.AlphaBeta\\Tek.Gomoku.AlphaBeta.csproj": {
+              "projectPath": "C:\\R&D\\Projects\\gomoku-tek\\Tek.Gomoku.Service\\Tek.Gomoku.AlphaBeta\\Tek.Gomoku.AlphaBeta.csproj"
+            }
+          }
         }
       }
     },

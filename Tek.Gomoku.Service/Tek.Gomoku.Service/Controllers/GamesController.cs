@@ -9,6 +9,7 @@ using Tek.Gomoku.Service.Models;
 using Tek.Gomoku.Service.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Tek.Gomoku.Engine;
 
 namespace Tek.Gomoku.Service.Controllers
 {
@@ -18,11 +19,13 @@ namespace Tek.Gomoku.Service.Controllers
     {
         private readonly GameContext _context;
         private readonly ISocketService _socketService;
+        private readonly IEngine _engine;
 
-        public GamesController(GameContext context, ISocketService socketService)
+        public GamesController(GameContext context, ISocketService socketService, IEngine engine)
         {
             _context = context;
             _socketService = socketService;
+            _engine = engine;
         }
 
         // GET: api/Games
@@ -111,14 +114,17 @@ namespace Tek.Gomoku.Service.Controllers
             }
 
             await _context.Game.ForEachAsync(p => _context.Game.Remove(p));
-            var game = new Game()
-            {
-                Status = GameStatus.Initial
-            };
+
             await _context.GameMove.ForEachAsync(p => _context.GameMove.Remove(p));
 
             await _context.SaveChangesAsync();
 
+            _engine.Reset();
+
+            var game = new Game()
+            {
+                Status = GameStatus.Initial
+            };
             var webSocketMessage = new WebSocketMessage()
             {
                 Type = "Game",

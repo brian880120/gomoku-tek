@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
+using Tek.Gomoku.AlphaBeta;
+using Tek.Gomoku.Engine;
 using Tek.Gomoku.Service.Models;
 using Tek.Gomoku.Service.Services;
 
@@ -34,11 +36,12 @@ namespace Tek.Gomoku.Service
             services.AddTransient<GameInitializer>();
             services.AddSingleton(Configuration);
             services.AddTransient(typeof(IUserInfoService), typeof(UserInfoService));
-            services.AddTransient(typeof(IGameJudgementService), typeof(GameJudgementService));
+            services.AddTransient(typeof(IJudgementService), typeof(JudgementService));
             services.AddTransient(typeof(IGameService), typeof(GameService));
             services.AddTransient(typeof(IJWTService), typeof(JWTService));
-            services.AddTransient(typeof(IAutoPlayService), typeof(AutoPlayService));
-            services.AddTransient(typeof(IGameMoveDataAdapter), typeof(GameMoveDataAdapter));
+            services.AddSingleton(typeof(IEngine), typeof(ResetableEngine));
+            services.AddTransient(typeof(IAlphaBetaAlgorithm), typeof(AlphaBetaAlgorithm));
+            services.AddTransient(typeof(IDataAdapter), typeof(DataAdapter));
 
             services.AddDbContext<GameContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("GameContext")));

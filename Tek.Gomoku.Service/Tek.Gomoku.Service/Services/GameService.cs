@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tek.Gomoku.AlphaBeta;
+using Tek.Gomoku.Engine;
 using Tek.Gomoku.Service.Models;
 
 namespace Tek.Gomoku.Service.Services
@@ -12,21 +13,27 @@ namespace Tek.Gomoku.Service.Services
     {
         private readonly GameContext _context;
         private readonly ISocketService _socket;
-        private readonly IGameJudgementService _judgement;
-        private readonly IAutoPlayService _autoPlayService;
+        private readonly IJudgementService _judgement;
+        private readonly IAlphaBetaAlgorithm _alphaBetaAlgorithm;
         private readonly IConfigurationRoot _config;
+        private readonly IEngine _engine;
+        private readonly IDataAdapter _adapter;
 
         public GameService(
             GameContext context,
             ISocketService socket,
-            IGameJudgementService judgement,
-            IAutoPlayService autoPlayService,
+            IJudgementService judgement,
+            IAlphaBetaAlgorithm alphaBetaAlgorithm,
+            IEngine engine,
+            IDataAdapter adapter,
             IConfigurationRoot config)
         {
             _context = context;
             _socket = socket;
             _judgement = judgement;
-            _autoPlayService = autoPlayService;
+            _alphaBetaAlgorithm = alphaBetaAlgorithm;
+            _engine = engine;
+            _adapter = adapter;
             _config = config;
         }
 
@@ -72,7 +79,16 @@ namespace Tek.Gomoku.Service.Services
             var game = await GetGame();
             if (game.Status != GameStatus.Playing) return;
 
-            var autoMove = _autoPlayService.MakeDecision(_context.GameMove.ToArray());
+            // Call victoria engine
+            var board = _adapter.FromGameMoves(_context.GameMove.ToArray());
+            var cordinate = _engine.FindBestMove(board, Color.White, TimeSpan.FromSeconds(10));
+            var autoMove = _adapter.ToGameMove(cordinate, Color.White);
+
+            // Call simple alpha-beta algorithm
+            //AutoPlayMove[][] board = _adapter.GameMovesToAutoPlayMoves(_context.GameMove.ToArray());
+            //AutoPlayMove decision = _autoPlayService.MakeDecision(board);
+            //var autoMove = _adapter.AutoPlayMovesToGameMove(decision);
+
             _context.GameMove.Add(autoMove);
 
             if (await Judge(autoMove))

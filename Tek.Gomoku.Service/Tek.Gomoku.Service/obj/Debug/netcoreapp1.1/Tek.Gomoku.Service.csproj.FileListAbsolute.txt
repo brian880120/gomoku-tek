@@ -7,3 +7,7 @@ C:\R&D\Projects\gomoku-tek\Tek.Gomoku.Service\Tek.Gomoku.Service\obj\Debug\netco
 C:\R&D\Projects\gomoku-tek\Tek.Gomoku.Service\Tek.Gomoku.Service\obj\Debug\netcoreapp1.1\Tek.Gomoku.Service.AssemblyInfo.cs
 C:\R&D\Projects\gomoku-tek\Tek.Gomoku.Service\Tek.Gomoku.Service\obj\Debug\netcoreapp1.1\Tek.Gomoku.Service.dll
 C:\R&D\Projects\gomoku-tek\Tek.Gomoku.Service\Tek.Gomoku.Service\obj\Debug\netcoreapp1.1\Tek.Gomoku.Service.pdb
+C:\R&D\Projects\gomoku-tek\Tek.Gomoku.Service\Tek.Gomoku.Service\bin\Debug\netcoreapp1.1\Tek.Gomoku.Engine.dll
+C:\R&D\Projects\gomoku-tek\Tek.Gomoku.Service\Tek.Gomoku.Service\bin\Debug\netcoreapp1.1\Tek.Gomoku.Engine.pdb
+C:\R&D\Projects\gomoku-tek\Tek.Gomoku.Service\Tek.Gomoku.Service\bin\Debug\netcoreapp1.1\Tek.Gomoku.AlphaBeta.dll
+C:\R&D\Projects\gomoku-tek\Tek.Gomoku.Service\Tek.Gomoku.Service\bin\Debug\netcoreapp1.1\Tek.Gomoku.AlphaBeta.pdb

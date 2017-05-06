@@ -38,7 +38,9 @@
           "Microsoft.NETCore.App": "1.1.1",
           "Microsoft.VisualStudio.Web.BrowserLink": "1.1.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "1.1.0",
-          "System.IdentityModel.Tokens.Jwt": "5.1.2"
+          "System.IdentityModel.Tokens.Jwt": "5.1.2",
+          "Tek.Gomoku.AlphaBeta": "1.0.0",
+          "Tek.Gomoku.Engine": "1.0.0"
         },
         "runtime": {
           "Tek.Gomoku.Service.dll": {}
@@ -1968,6 +1970,28 @@
         },
         "compile": {
           "lib/netstandard1.0/System.Text.Encodings.Web.dll": {}
+        }
+      },
+      "tek.gomoku.alphabeta/1.0.0": {
+        "dependencies": {
+          "Microsoft.NETCore.App": "1.1.1"
+        },
+        "runtime": {
+          "Tek.Gomoku.AlphaBeta.dll": {}
+        },
+        "compile": {
+          "Tek.Gomoku.AlphaBeta.dll": {}
+        }
+      },
+      "tek.gomoku.engine/1.0.0": {
+        "dependencies": {
+          "Microsoft.NETCore.App": "1.1.1"
+        },
+        "runtime": {
+          "Tek.Gomoku.Engine.dll": {}
+        },
+        "compile": {
+          "Tek.Gomoku.Engine.dll": {}
         }
       },
       "libuv/1.9.1": {
@@ -4506,6 +4530,16 @@
       "sha512": "sha512-ilLTKoirqw+Mbt+6x1MOxZKEwflasdP5WNuo5m5rKSXtAqazlEDqdyBH1XbvENuDQUtKNeP48CI1dyDNlEAeOA==",
       "path": "system.text.encodings.web/4.3.0",
       "hashPath": "system.text.encodings.web.4.3.0.nupkg.sha512"
+    },
+    "tek.gomoku.alphabeta/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "tek.gomoku.engine/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "libuv/1.9.1": {
       "type": "package",
