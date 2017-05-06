@@ -18,6 +18,8 @@ namespace Tek.Gomoku.Service.Models
         public string Status { get; set; }
 
         public string Winner { get; set; }
+
+        public bool ManToMachine { get; set; }
     }
 }
 

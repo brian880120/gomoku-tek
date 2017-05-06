@@ -142,9 +142,12 @@ namespace Tek.Gomoku.Service.Services
 
         public async Task Move(string userName, GameMove move)
         {
+            var game = await GetGame();
+            var manToMachine = game.ManToMachine;
+
             await ManualPlay(userName, move);
 
-            if (_config["AutoPlay:Mode"] == "true")
+            if (manToMachine)
             {
                 await AutoPlay();
             }
@@ -182,13 +185,15 @@ namespace Tek.Gomoku.Service.Services
             await _socket.BroadcastMessage(webSocketMessage);
         }
 
-        public async Task SignIn(string userName, bool isAutoPlay)
+        public async Task SignIn(string userName, bool manToMachine)
         {
             var game = await GetGame();
             if (game.Status != GameStatus.Initial)
             {
                 throw new InvalidOperationException("Game has started!");
             }
+
+            game.ManToMachine = game.ManToMachine ? true : manToMachine;
 
             if (string.IsNullOrWhiteSpace(game.BlackSidePlayer))
             {

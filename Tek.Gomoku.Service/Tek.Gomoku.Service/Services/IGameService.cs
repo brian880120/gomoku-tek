@@ -8,7 +8,7 @@ namespace Tek.Gomoku.Service.Services
 {
     public interface IGameService
     {
-        Task SignIn(string userName, bool isAutoPlay);
+        Task SignIn(string userName, bool manToMachine);
 
         Task SignOut(string userName);
 

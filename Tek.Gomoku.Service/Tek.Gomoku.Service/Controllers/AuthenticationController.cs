@@ -52,11 +52,13 @@ namespace Tek.Gomoku.Service.Controllers
                     throw new InvalidOperationException("UserName is required!");
                 }
 
+                var manToMachine = model.GameMode == "auto" || string.IsNullOrWhiteSpace(model.GameMode);
+
                 var token = await _jwtService.CreateToken(model.UserName);
 
-                await _gameSerivce.SignIn(model.UserName, model.GameMode == "auto");
+                await _gameSerivce.SignIn(model.UserName, manToMachine);
 
-                if (_config["AutoPlay:Mode"] == "true")
+                if (manToMachine)
                 {
                     await _gameSerivce.SignIn("Machine", true);
                 }
