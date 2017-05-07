@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as _ from 'lodash';
+import { BOARD_SIZE } from '../../../api/apiConfig';
 
 class GameUnit extends React.Component {
     constructor() {
@@ -34,25 +35,25 @@ class GameUnit extends React.Component {
         if (columnIndex === 0) {
             cellClass = 'cell first-column-cells';
         }
-        if (columnIndex === 17) {
+        if (columnIndex === BOARD_SIZE - 1) {
             cellClass = 'cell last-column-cells';
         }
         if (rowIndex === 0) {
             cellClass = 'cell first-row-cells';
         }
-        if (rowIndex === 14) {
+        if (rowIndex === BOARD_SIZE - 1) {
             cellClass = 'cell last-row-cells';
         }
         if (columnIndex === 0 && rowIndex === 0) {
             cellClass = 'cell first-column-cells first-row-cells';
         }
-        if (columnIndex === 0 && rowIndex === 14) {
+        if (columnIndex === 0 && rowIndex === BOARD_SIZE - 1) {
             cellClass = 'cell first-column-cells last-row-cells';
         }
-        if (columnIndex === 17 && rowIndex === 0) {
+        if (columnIndex === BOARD_SIZE - 1 && rowIndex === 0) {
             cellClass = 'cell last-column-cells first-row-cells';
         }
-        if (columnIndex === 17 && rowIndex === 14) {
+        if (columnIndex === BOARD_SIZE - 1 && rowIndex === BOARD_SIZE - 1) {
             cellClass = 'cell last-column-cells last-row-cells';
         }
         let unitStatus = this.props.unitStatus;

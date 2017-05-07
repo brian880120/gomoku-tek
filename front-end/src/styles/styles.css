@@ -1,7 +1,7 @@
 #app {
     background-color: antiquewhite;
     margin: auto;
-    max-width: 800px;
+    max-width: 870px;
 }
 
 select.ui.dropdown {
@@ -48,7 +48,7 @@ select.ui.dropdown {
 }
 
 .login-area>div:nth-child(1) {
-    margin-right: 33px;
+    margin-right: 125px;
 }
 
 .card-panel {
